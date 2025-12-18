@@ -1,0 +1,18 @@
+
+Hey i have an idea think if a business unit already have its spoc who is a card holder
+of it so why should spoc need permission from the business unit admin for any business unit service
+handler service wanting purchase related approval right 
+
+so what i think we can do is instead of purchase approval email from spoc to business unit admin after entry of any purchase in his 
+account dashbaord 
+and business unit admin sees email and click approve in email and then that entry is marked approved on spoc dashbaord
+and then and email shoot to MIS and in parallel that entry is added to Global Expense sheet,
+
+we can do now is  :  when any business unit spoc purchases any service for his business unit sevice handler
+spoc do entry and a simple notficatory email what all details of that entry will be send to email to business unit admin ,
+also same email like notification will also be pinged and went to the business unit admin account notification panel
+
+also at the same time same email with new entry from our system to the MIS manager will also be generated 
+and went to MIS manager email with all purchase related details with business unit spoc name, etc things
+
+and at the same time that entry with all details will be added to the global expense sheet, and that entry also be logged as purchase with all details shows to business unit admin , MIS , Super admin logs.

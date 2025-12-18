@@ -1,0 +1,362 @@
+Internal application services i wanted to rectify is these serivce and scenarios are properly working 
+in my application.
+
+1. In my current system a notification will be generated to the business unit service handler on before 5 days of 
+renewal of that serivce weather the serivce recurrenece is of "Monthly ,  Yearly" Our system always rectify and
+know which busines unit service handler serivce renewal date is coming and before 5 days system send internal notification
+to that business unit service handler notification panel and in email too that service handler that are you using this serivce this serivce renewal is 
+on after 5 days ,
+Like system know and have all serivce entries data of all business unit serivce expense sheet and know 
+from which business unit who is the serivce handler under that business unit and his date of renewal of serivce is coming
+then system send internal notification to that serivce handler "system know business unit first filter and then know the recurrance time and date of purchase 
+so system understand that which serivce handler of business unit serivce handler alloted serivce renewal date is coming so it will send
+are you using or not notification to that business unit handler notification panel.
+the notification is are you using this serivce with some serivce detail and with the 'yes' and 'no' button
+
+And if serivce handler clicks on 'yes' so a log will happend and the logs will be updated in MIS manager / super admin and on that of business unti admin log panel too
+MIS and super admin will get yes i am using and continue using log from all serivce handlers weather they are of any business unit, 
+
+And if serivce handler click on 'no' so notification ask for log for reason of cancel and serivce handler log the reason and then click ok , then
+the log of serivce not using by the serivce handler with all serivce related details showing to mis manager and super admin logs panel
+and by all business unit serivce handlers when they do so, also and email will also be generated to MIS that "Full serivce details, serivce handler name, date of purchase and all tool
+related details in email, that the serivce handler click on 'no' but when system ask him/her before the 5 days of renewal of their alloted serivce
+date like "the service handler is clicked no and he/she is not wanting to use this serivce kindly deactive the card"
+
+Also like the manual deactive request maded by any serivce handler from the system and our system took log before request to cancel the card and update status deactive on global sheet
+just like that , ame in notification if serivce handler click no he will log all data and reason of no using with service detail and password etc and that not using request will be made and a email generated to mis that this business unit admin dont wanted to continue this service as asked by the system and he clicked no
+
+Also in MIS notification panel , he also can see the that disable request with all logs attached in that notification and mis know and disable the service , date of purchase and recurring basis montly , yearly or one time
+
+for example  :  there are 2 serivce handlers from differnt business unit saksham a business unit handler of 
+DWSG and ram from wytlabs business unit ok the spocs of their respected business units purchased the serivce on them of them under serivce handler in sheet / in expense entry
+and saksham purchased tool is 'ChatGPT' which is purchased on 2nd december 2025 , and ram purchased tool is 'semrush' which is purchased on 10 december 2025 but both recurring cases are different saksham tool is of 'montly' recurring plan so his renewal date will come every month, and ram serivce recurring plan is yearly so his renewal date will come every year,
+So is  our system is good enough to understand which handler and handlers serivce date is coming nearby like a logic based judging mechanism 
+that system know saksham recurring plan is monthy basis and his plan date of purchase is on 2nd december so technically and logically before 02 Jan 2026 of next renewal date before 5 days of date which is 28 Dec 2025 our system will send internal notification to the saksham who is serivce handler of DWSG business unit 
+in internal notification to saksham system ask are you using this serivce with all serivce related detials and 'Yes' or 'no' button , same in case of ram , ram recurring plan is yearly basis so system know ram from wytlabs business unit see under entry his recurring plan is of yearly basis so after one year on before renewal date which is 10 Dec 2026 in case of ram alloted service 
+purchased date before next renewal date before 5 days on 5 Dec 2026 our system will generate a internal notification to ram that are you using this serivce vice versa like same thing.
+
+
+so my question is above feature, functionality and capabilites of system are already presnted or if not kindly make sure my system have these capabilites
+also if already Implemented , my another question is that is this system work on large scale or on bulk entires
+
+like you already know that our mis will upload bulk serivce /expense related entries of previous months and years  so our system first show
+all details to all respected accounts weather they are business unit admin , serivce handler, spoc , mis manager in blink of an eye or in super sync that
+if when a serivce handler account will be created on december and mis uploaded previous years and months expense sheet in the global sheet , so the sync is so fast from database
+the serivce handler account is creating on december when he first logged in he can see all serivces from previous months or years on his dashbaord if that serivce is been purchased on name of him and under his business unit that our system already know 
+and also our system already know above renewal related capabilites and functional features will also be applied to previous entries too so that above mentioned renewal features works on every business unit serivce entry on every business unit service handler , and on MIS and super admin too,
+so our system will be in full sync and production level working is being used in our expense management system application.
+
+
+2. In continuation of above 5 days before notification of any serivce renewal date capabilites my system have  Another feature i want to introduce in it
+like if service handler got the notification of next renewal date and are you using or not within notification panel and 
+business unit serivce handler did not give any response in notification panel weather 'Yes' or 'No' button an no response clicked by 
+service handlers, and no email and internal notification generated towards MIS for cancellation no update either regarding continue with service 
+
+So our system shoot email before 2 days of renewal date of that serivce handler serivce which he is using and give no response on internal notification of 
+continuing or not , our system understand this and generate a email to the MIS & Service Hanlder that we are deactivating this service as no response is given by the service handler 
+on before 5 days of renewal date of his service "with all service details" in email and request MIS to cancel the service , this kind of email to both MIS and that particular service using 
+serivce handler if he/she did not take action on the notification on their named service who's renewal date is comming and before 5 days of next renewal date system generate a internal notification
+and serivce handler did'nt give any  response on it, system have the database, notification power full logic and data understanding thats why system knows 
+
+for example : system knows which serivce handler date is comming for service handler named service / or alloted to him and before the renewal of 5 days of that service next renewal our 
+system generate an internal notification to that serivce handler  that are you using this service or not with service details and with 'Yes' 'No' buttons
+and if service handler give no response to that notification and no email and internal notification( is generated to MIS manager in case of No clicking that cancel that service) and no internal notification/logs  is generated to mis or other party in case of yes
+
+our system is well powerful and understanding that no yes or no response given by the service handler then our system generate email of canceling this serivce to that service handler and MIS before 2 days of the service or tool renewal date
+
+like this could apply in bulk case also at same time many serivces renewal date is comming and many services alloted to different different business units multiple service handlers, so our system is smart enough to do this task on bulk and large scale right ? 
+
+also a scenario case 2 service handlers name 'lyla' and 'priya' , lyla is of Signature business unit and priya is of collabx business unit
+right lyla purchased serivce is on 10 dec 2025 with recurring modal is 'Monthly' so technically her serivce next renewal date will be 
+on 10 Jan 2026, and 'priya' purchased serivce is on 15 dec 2025 and recurring modal is 'Yearly' so technically her serivce next renewal date will be 
+on 15 Dec 2026 right , so both will get internal notification from system on before 5 days of their renewal date of that particular serivce,
+
+if both ignore that internal notification and performed no action in that internal notification weather 'yes' or 'no' , and no action is perform on that notification
+our system is smart enough and logically updated that the business unit service handler performed no a single action on that notification
+whos tool next renewal date is close and MIS get not a single notification or email weather for continuing or cancelation,
+
+so our system generate a email to that service handler and MIS in our example case lyla on 8 Jan 2026 TO Service handler 
+and MIS that this service handler give no response to our internal notification weather continuing this serivce or not so we are cancelling this service alloted to business unit service handler 
+to service handler and MIS , SO MIS will cancel the service 
+
+like you already know that our mis will upload bulk serivce /expense related entries of previous months and years  so our system first show
+all details to all respected accounts weather they are business unit admin , serivce handler, spoc , mis manager in blink of an eye or in super sync that
+if when a serivce handler account will be created on december and mis uploaded previous years and months expense sheet in the global sheet , so the sync is so fast from database
+the serivce handler account is creating on december when he first logged in he can see all serivces from previous months or years on his dashbaord if that serivce is been purchased on name of him and under his business unit that our system already know 
+and also our system already know above renewal related capabilites and functional features will also be applied to previous entries too so that above mentioned renewal features works on every business unit serivce entry on every business unit service handler , and on MIS and super admin too,
+so our system will be in full sync and production level working is being used in our expense management system application.
+
+
+if this feature and capabilites are not in above system kindly update add 2 days before email capability too with good code quality
+
+
+
+
+
+
+hey you have full code base access frontend backend and other files and folders, 
+
+3. Internal application services i wanted to rectify is these serivce and scenarios are properly working 
+in my application.
+
+Hey i have now bulk date of different different entries of service with all new service handlers of different different business units
+so my question is my application will handle bulk data and those service Handler whose accounts already create will se in sync all previous data which is purchased under name of them, 
+and also those business unit service handlers whos account were not created yet and if created in their first loggin they will se all past and present services entries under their name from thier business unit 
+and they will see all entries which is added under bulk upload and they can perform same functionalities features and capabilites alloted to them as global and all Service handlers have of all business unit 
+for example :  service handlers who's named on service purchased data uploaded by MIS and those entries are now in our database, but some of service handlers
+account were not created , so when super admin create the business unit service handlers account who are not in current system but their named purchase service entries
+are in system and after super admin create their account under their business unit that which business unit service handler he she is and 
+when service handlers first logged in our system is smart enough that this business unit serivce handler account has been created and our system projects/show all 
+service of that service handler under his business unit purchased on name of him and on his first loggin he can see all previous months years or past data or present data of entries of services who are purchased on name of him
+
+for example : brij a service handler of wytlabs who service enteries are in system as bulk uploaded by mis to global sheet of different different business unit service handler with different different business unit under there name
+and brij account has not been created in system but his named service entries exsists in system and first filter system know this service handler account is create and his services entries exsists in system so system filter by his business unit and search the name of service handler name and then show his all related entries to him weather he is already created or his account is new created 
+system projects data on his dashboard or his nammed expense sheet.
+
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  |   Disable           |        
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| M003         | Akash verma        | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | Wytlabs        | OPS         | Tarun       | Brij                                  | Yearly              |   Disable           |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| M003         | Akash verma        | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | Wytlabs        | OH EXPS     | Tarun       | Brij                                  | One-time            |   Disable           |
++
+
+
+Also if bulk data has been uploaded by MIS by nature that bulk data will be saved on global sheet accordingly and also shown/projected to respected business unit admins , business unit spcos and business unit service handlers accordingly
+so my system work in present and past service entries directed manner and these entries are now native data of our system and all
+features, roles based functionalities, functions, filter and other feature and functionalities who are used by all accounts and all system features 
+
+also above functionalities of 5 day 2 day renewal, and other feature and functionalities also apply to that of bulk data , 
+
+so can i now upload bulk data and test my system ?
+
+
+
+
+4. Hey i have another query my current previous service entry sheet which is gonna be bulk uploaded by mis  at end of column , 
+column whos name is recurring , in my current bulk uplaod sheet recurring column name is recurring/one time in bulk sheet the drops
+downs are reccuring_M, recurring_Y, and one time , so our system should match all columns in global entry sheet and map that column drop downs and entries 
+mapping from Recurriing_M to Monthly , Recurring_Y to Yearly and one time to one time only so our system will mapp accordingly and accordingly all columns in
+our global expense sheet , kindly update and ensure my uploade will be successful with all bulk upload sheet columns will be mapp and matched to our current global sheet ,
+so everything so as seamlessly possible with no bug and my bulk upload sheet will be uploaded with no error and will be reflect on the global expense sheet also with dates 
+or months accordingly not on top of stack but date wise in global expense sheet. 
+
+5. Hey i have another query which is our system will map and match correct columns of the expense sheet to its uploaded bulk sheet like 
+if bulk sheet uploaded in system to save in database and reflect as native entries in our global expense
+sheet the upload sheet columns should be match and mapp with our global and native sheet columns like 
+when dispensing all entries data under their columns our system know which entry is from which column and system knows 
+which column is equal to which uploaded column then dispense all entry data in the sheet with correct mappings of columns 
+for example : In our current system Global sheet its first column name is 'Card No' and our bulk upload sheet name is 'Card Number/Payment From'
+and 'Amount' in sheet in bulk sheet it is 'Amt' so our system is good enough to understand which data column are similar and where to dispense
+which data , accordingly here are current system Global expense sheet columns  :  ,  and here are bulk upload columns :  , 
+understand which column is similar to which column and dispense all data in it
+
+that whats my query is kindly understand and update if not exists 
+
+
+
+6. 
+
+he problem is may be in the mapping these are the errors i saw when i upload my bulk sheet and system show me this
+
+I already told you to Map and make the comming sheet column name as like your current global sheet column names and do 
+map them according to the variables and convert them like your current columns and how thier data is showing , kindly do that 
+and do solve any error persist , current system expense sheet columns names : and you also have code access of those fields kindly 
+understand also , Also you recurring_M , Recurring_Y to be Montly and yearly accordingly, make system smart enough so it rectify which
+ entry is of which column and depense accordingly , : current bulk sheet column names and their drop downs and some example entries see 
+ : , also i refine some data in my bulk upload sheet i saw this : and errors of those sheet :
+
+
+
+7.
+Hey i have an idea what i am thinking is we can do is remove the showing of global expense sheet in dashbaord
+cause we are already showing global expense sheet under Global expense sheet panel right
+
+we can make the dashbaord what dashboard is maded for , for showing excel like analytics dashboard based on
+data , based on filters , understand what i am thinking what my intent is,
+like if user's like MIS , Super Admin, respected business unit apply filters on thier dashboard
+page they can see data analytics dashboard and the analytics will be changing based on the global 
+sheet filter within dashbaord like yes we stop displaying global expense sheet on dashbaord panel, but yes the analytics are purely
+based on global expense sheet multiple combination of filterization
+
+like the filtering system should be there in the dashbaord and also export sheet function too
+but instead of showing global expense sheet on dashbaord as we already show in global expense sheet panel page we will show excel dashboard
+like analytics based on combinations of filters of the global sheet data, like showing components,
+total service , bar graph, pie chart, line graph etc things on dashbaord page,
+
+
+
+
+
+*************
+5 days before renewal notification case: 
+
+Hey see is this example is correct and will this work and my system is capable to do so : for example i will add a entry loggin as spoc one of a business unit , so spoc add a expense detail for his business unit expense , and add his business unit service handler name in the entry who is already created, and add a expense / purchase date of 20 Nov 2025 and add recurring as monthly, and accept/reject email will be generated to business unit admin and business unit admin click accept or whatever to mark the entry approved and another email will trigger to MIS as well of the entry with all entry related details and that entry will be added to global expense sheet right, so technically as our feature this month 15 Dec 2025 1:15 pm and 10 Am our system generate an email and a internal notification to the service handler of that business unit whos name the service was purchased , that are you using this service or not cause its renewal date is in next five days , if service handler click 'yes' to that notification and auto logs trigger and saves in logs and shows to Business unit admin, MIS and Super admin logs panel that this business unit service handler using this service and marked in logs as 'continue', also , if user clicks 'no' so service handler enter a reason log and save then a email trigger to MIS to cancel this service asked by service handler a cancel request email , also a internal log of that cancel request saves in logs and shows to MIS, super admin and business unit admin, and also internal notification of cancel request to MIS Notification panel, and after MIS cancel that service and in global expense sheet MIS mark that requested cancel service as deactive, so globally that service will be marked as deactive and log created and save in system 'Service deactive by MIS' and will show to MIS, Super Admin, business unit admin logs panel with the deactive date . also in service handler expense sheet that service also be deactive, also if this action perform by service handler of (5 days before renewal date case) no 2 days before action or notification will be performed and generated.
+
+
+
+
+
+***************
+2 days before renewal notification case if no action performed by service handler :
+
+
+Case 2 : If no action performed by service handler in 5 days before case, this case of 2 days before case will run as system understands and know ,
+so if no action performed by service handler in 5 days before renewal date internal notification to service handler and service handler did not clicked any option weather 'yes' or 'no' , our 2 days before case will run, and before 2 days of renwal of any service in system our system generate and email and internal notification to MIS and service handler that 'the service handler of this business unit did not perform action on 5 days before renewal date notification' so we are canceling his service and MIS will cancel that service accordingly.
+
+?
+
+8. 
+
+Hey I have one more query in my example  :  if before 5 days of renewal date a notification is generating , and our system is smart 
+enough that the service handler who's service recharge date is coming and before 5 days user manually requested for 'renewal' that service 
+and service handler went to its services panel and manually click renewal and renewal log 'continue' to MIS, Super Admin, Business unit admin logs, and email notification and internal notification to MIS 
+will be generated so , our system know that this service date is coming in near days but user already requested for renewal so our system smart enough and will not trigger any 5 days and 2 days notification and email to service handler and MIS
+as user already requested for continuation 'renwal' of that service and log 'reason' has also been taken so system knows that this service is already for renewal.
+
+vice versa : if user before 5 days notification function of its service and user know his service date is comming for renwal and service handler
+went manually there in his service panel and click 'Disable' and log the reason and that log will be visible to super admin, MIS, business unit admin , and email notification and internal notification to MIS and MIS cancel that service
+so our system will not generate any before 5 days one notification and 2 days case notification as our system is smart enough and know that the service who's renewal date is comming 
+and user already requested for disable and disable has been done so not to give any 5 day are you using  and 2 day no action performed notification
+
+if this feature is already there and our system is smart enough to understant this which is good if this feature is not applied 
+yet kindly apply so system will became smart enough so only give 5 days before notification when user did'nt do any manual task no 'renewal' or no 'disable' request by manual ,
+and may be dont know there service date is coming so system will generate 5 days before notification /email to service handler , and if no action performed by service handler on 5 dayss notification 2 days auto cancelation notification will generate to service handler and MIS email and internal notification that we are cancelling this service as service handler give no response to 5 days notification
+
+
+
+9.
+
+Hey I have another addition of feature and function in my mind 
+
+like some of my company business units do share there expesense and that expense is generally paid by dwsg , but if dwsg not able to
+pay others can pay,
+
+So i am thinking a new entry and showing of those ticked entry in our system and the global and expense sheet
+in a where I wanted to give a new entry when any business unit spoc can enter if this entry is comes under shared expense
+
+for example :   when any business unit spoc enter new entry or update in entry module, 
+
+another entry input where shared is wrriten and a radio box there if spoc click and that radio box so
+just down another entry opens to select business unit other than you to mention the shared expense  : 
+
+
+Shared  radio   ✅ if ticked 
+
+Business units drip down opens :
+
+spoc can choose business units other than of him and mention shares of expense 
+
+if spoc is of DWSG so drop down will be : 
+
+1 -> DWSG      alread ✅ ticked       enter cost : 
+2.-> Wytlabs      empty tick radio   enter cost : 
+3.-> Smegoweb     empty tick radio    enter cost : 
+4.-> Signature    spoc will ✅ tick  and enter cost ,  enter cost : 
+5.-> collabx      spoc will ✅ tick     enter cost : 
+
+ok for example spoc choose the business unit that this expense divided into and enter cost accordingly
+
+like above spoc enter total expense which is generally filled Amount  : 500 Dollar
+so 500 dollar should divided into business unit if spoc choose this expense as shared , if not choosen shared all things work as previously works.
+
+1 -> DWSG      alread ✅ ticked       enter cost : 200$
+2.-> Wytlabs      empty tick radio   enter cost : 
+3.-> Smegoweb     empty tick radio    enter cost : 
+4.-> Signature    spoc will ✅ tick  and enter cost ,  enter cost : 100$
+5.-> collabx      spoc will ✅ tick     enter cost : 200$
+
+Now if user enter expenses of those business units and divided and save the entry and entry approved and 
+shown in globale expense sheet 
+
+a another column will be maded to all users global expense sheet to MIS, and Super admin sheet or business unit admins and spocs and service handlers accordingly to role 
+those business unit ticked in shared can only see those entry as also a shared as well
+
+so another column will be maded in sheet a shared and in that column there will be click or tick if the entry is shared for example the entry would look like  : 
+
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  | Shared Bill         |        
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| M003         | John Doe           | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | Wytlabs        | OPS         | Raghav      | Raghav                                | Yearly              |         ✅          |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya Shah         | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | DWSG           | OH EXPS     | Tarun       | Tarun                                 | One-time            |         ✅          |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C003         | Akash Verma        | 12-Mar-25  | Mar-2025  | Deactive  | MongoDB                          | MongoDB                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | CollabX        | Support     | Yulia       | Yulia                                 | Monthly             |    ----             |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C003         | Billu flora        | 12-Mar-25  | Mar-2025  | Active    | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | CollabX        | Support     | Yulia       | Yulia                                 | Monthly             |    -----            |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+
+
+Entries look varies according to the roles and accounts of the people on the system
+but on thing is true is if the bill is not shared in entry sheet we se dash and no tick so that entry is normal entry,
+and if the entry is clicked and mentioned by spoc that entry is shared and spoc shares the expense and expense division 
+that entry will we showed as ticked under shared column as says this entry is shared and the cost data is taken by the system but not show on the forntend 
+
+that data will be shown within the export sheet 
+for example : 
+
+if the entry is filtered or not filtered users downloads the sheet so can see also a shared column and all entries who are shared or not 
+
+Card Number 	Card Assigned To	Date	Month	Status	Particulars	Narration	Currency	Bill Status	Amount	XE Rate	Amount in INR	Types of Tools or Service	Business Unit	Cost Center	Approved By	Service Handler	Recurring	Disable Date shared Bill
+M004	    saksham	9/12/2025	Dec-2025	Active	SoraAI	SoraAI	USD	Bipoler	199.99	90.17	18033.0983	Tool	DWSG	Ops	Tarun	Saksham Kanojia	Monthly	
+
+example export sheet if and if downlaod by the filter or non filters or combination of hyper filters: 
+
++--------------+--------------------+------------+-----------+-----------+----------------------+----------------------+----------+-------------+--------+---------+---------------+----------------------------+----------------+-------------+-------------+------------------+-----------+---------------+------------------------------------------------+
+| Card Number  | Card Assigned To   | Date       | Month     | Status    | Particulars          | Narration            | Currency | Bill Status | Amount | XE Rate | Amount in INR | Types of Tools or Service  | Business Unit  | Cost Center | Approved By | Service Handler  | Recurring | Disable Date  | Shared Bill                                    |
++--------------+--------------------+------------+-----------+-----------+----------------------+----------------------+----------+-------------+--------+---------+---------------+----------------------------+----------------+-------------+-------------+------------------+-----------+---------------+------------------------------------------------+
+| M003         | John Doe           | 05-Jan-25  | Jan-2025  | Active    | ChatGPT              | ChatGPT              | USD      | —           | 200    | 83.50   | 16,700        | Domain                     | Wytlabs        | OPS         | Raghav      | Raghav           | Yearly    | —             | ✅ DWSG : 200$, collabx: 100$, Signature: 200$ |
++--------------+--------------------+------------+-----------+-----------+----------------------+----------------------+----------+-------------+--------+---------+---------------+----------------------------+----------------+-------------+-------------+------------------+-----------+---------------+------------------------------------------------+
+| C002         | Priya Shah         | 10-Feb-25  | Feb-2025  | Active    | Ahrefs               | Ahrefs               | USD      | —           | 500    | 83.50   | 41,750        | Tool                       | DWSG           | OH EXPS     | Tarun       | Tarun            | One-time  | —             | ✅ Wytlabs:100$, collabx:200$                  |
++--------------+--------------------+------------+-----------+-----------+----------------------+----------------------+----------+-------------+--------+---------+---------------+----------------------------+----------------+-------------+-------------+------------------+-----------+---------------+-------------------------------------------------+
+| C003         | Akash Verma        | 12-Mar-25  | Mar-2025  | Deactive  | MongoDB              | MongoDB              | USD      | —           | 300    | 83.50   | 25,050        | Hosting                    | CollabX        | Support     | Yulia       | Yulia            | Monthly   | 31-Mar-25     | ————                                            |
++--------------+--------------------+------------+-----------+-----------+----------------------+----------------------+----------+-------------+--------+---------+---------------+----------------------------+----------------+-------------+-------------+------------------+-----------+---------------+-------------------------------------------------+
+| C003         | Billu Flora        | 12-Mar-25  | Mar-2025  | Active    | GoDaddy              | GoDaddy              | USD      | —           | 300    | 83.50   | 25,050        | Hosting                    | CollabX        | Support     | Yulia       | Yulia            | Monthly   | —             | —————                                           |
++--------------+--------------------+------------+-----------+-----------+----------------------+----------------------+----------+-------------+--------+---------+---------------+----------------------------+----------------+-------------+-------------+------------------+-----------+---------------+-------------------------------------------------+
+
+Understand what i am saying and what my intents are 
+but in export any one who exports the sheet according to the role can see divided expense entered by spoc when doing a shared entry those cost divison will also be 
+visible in the export sheet under shared 
+
+Also our dashbaord analytics system also knows and made a shared only pie chart 
+according to the combination with the multipe filter and with the business units according to business units ,
+so users and authorized users like business unit admin, super admin , MIS can see the analytics as well as chart or graph or data of shared if shared was selected
+and entered by spoc and that entry is also treated as shared and maded a analytics chart if shared ,
+I want the shared entry will also be synced with the other filters as well can als show in ratio or percentage like this month 10 entries by dwsg shared and show like this  DWSG : 200$, collabx: 100$, Signature: 200$ like 
+overall system know which entry is of shared and and know the expense of shared and show in Analytics dashbaord under shared and says this serivce is divided in these business unit with this much of shared expense or percentage ,
+
+understnd the update frontend and backend accordingly and other features and function will work usual with no effect
+
+understand my goal and update my application accordingly with no code error and best code quality and applyation of this new feature ,
+
+Take step wise approach to update my application logically, practically, and adaptivly
+
+
+
+
+9.
+
+Hey my final rectification :  Is my Global expense sheet , my all dashboard and 
+global expense sheet hyper filters/advance filter, and dashboard analytics are working
+ in 100% sync right , like all system showing 100% correct data right nothing and no entry is missing right ?
+
+
+
+10. Hey also another feature i wanted apply i would say edit 
+
+when spoc enters the entry and the entry is marked pending until and unless business unit admin accepts that entry and clicks 
+on email acccept button right , 
+
+So i have think a alot about this feature and come to an solution that i think i should remove the accept and reject button
+and instead take approval from business unit , cause if spoc id exists it means spoc already have approval 
+of purchasing anything for the business unit on name of service handler right,
+
+so instead when spoc enteres any expense entry our system just generate a email to the business unit admin without accept and reject button
+and a internal notification too to business unit admin notification panel with all service related details
+
+and in spoc expense sheet that entry always marked as approved and then all further process work as previously do
+
+then an entry /purchase email will also be went to MIS that this busines unit spoc purchased this service etc details,
+also a log registered accordingly for purchsed item showing to business unit admin, Super Admin, and MIS Manager.
+
+also if entry is entered and selected as shared in log marked as purchased should also be mentioned shared with all divided expense with business unit names.

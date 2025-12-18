@@ -1,0 +1,472 @@
+
+Hey i have an idea what i am thinking is we can do is remove the showing of global expense sheet in dashbaord
+cause we are already showing global expense sheet under Global expense sheet panel right
+
+we can make the dashbaord what dashboard is maded for , for showing excel like analytics dashboard based on
+data , based on filters , understand what i am thinking what my intent is,
+like if user's like MIS , Super Admin, respected business unit apply filters on thier dashboard
+page they can see data analytics dashboard and the analytics will be changing based on the global 
+sheet filter within dashbaord like yes we stop displaying global expense sheet on dashbaord panel, but yes the analytics are purely
+based on global expense sheet multiple combination of filterization
+
+like the filtering system should be there in the dashbaord and also export sheet function too
+but instead of showing global expense sheet on dashbaord as we already show in global expense sheet panel page we will show excel dashboard
+like analytics based on combinations of filters of the global sheet data, like showing components,
+total service , bar graph, pie chart, line graph etc things on dashbaord page,
+
+MIS and Super Admin can see full system and all business unit and all global expense sheet analytics.
+
+Business unit admins can only see their own business unit related data analytics of their own services
+
+-Use best inclass UI Libraries and dependencies of charts and data analytics to show best KPI rich and analytics rich 
+dashbaord with best UI's and charts and graphs
+
+
+1. Dashboard page mockup (copy-paste wireframe)
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│ EXPENSE ANALYTICS DASHBOARD                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Filters:                                                                                      │
+│  Date Range: [ 01-Jan-2025 ] to [ 31-Dec-2025 ]   Month: [ Jan ▼ ]  Year: [ 2025 ▼ ]         │
+│  Business Unit: [ Ops ▼ ] [ Support ▼ ] [ IT ▼ ] [ CTC ▼ ]                                    │
+│  Service: [ ChatGPT ▼ ] [ Ahrefs ▼ ] [ ... ▼ ]     Status: (•)Active  ( )Deactive            │
+│  Recurring: [ One-time ▼ ] [ Monthly ▼ ] [ Yearly ▼ ]   Disable Dates: [ Toggle ON/OFF ]     │
+│  Cost Center: [ CC-001 ▼ ]   Card Assigned To: [ Akash Verma ▼ ]   Search: [__________]      │
+│  Apply [✔]   Reset [↺]                                                                      │
+├──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ KPI CARDS (all change with filters)                                                           │
+│ ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────┐ │
+│ │ Total Expense        │ │ Expense Count        │ │ New Active Tools     │ │ Deactive Tools│ │
+│ │ ₹ 12,34,567          │ │ 128                  │ │ 14                   │ │ 6            │ │
+│ │ vs prev: +8%         │ │ vs prev: +12         │ │ this month           │ │ this month   │ │
+│ └──────────────────────┘ └──────────────────────┘ └──────────────────────┘ └──────────────┘ │
+├──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ CHARTS                                                                                       │
+│ ┌───────────────────────────────────────────┐ ┌───────────────────────────────────────────┐ │
+│ │ Expense Pie (toggle grouping)             │ │ Type of Service (Bar)                      │ │
+│ │ Group By: (•)Business Unit ( )Service     │ │ Metric: (•)Expense  ( )Count               │ │
+│ │         ( )Status Active/Deactive         │ │ View:  (•)Total  ( )Stacked Active/Deactive│ │
+│ └───────────────────────────────────────────┘ └───────────────────────────────────────────┘ │
+│ ┌───────────────────────────────────────────┐ ┌───────────────────────────────────────────┐ │
+│ │ Recurring Graph (Bar)                     │ │ Big Expense Trend (Combo: Bar + Line)     │ │
+│ │ One-time | Monthly | Yearly               │ │ X: Month/Date  Y: Expense                  │ │
+│ └───────────────────────────────────────────┘ └───────────────────────────────────────────┘ │
+│ ┌─────────────────────────────────────────────────────────────────────────────────────────┐ │
+│ │ Cost Center Graph (Bar)                                                                │ │
+│ │ Metric: [Total Expense ▼] [Active Tools ▼] [Deactive Tools ▼]                           │ │
+│ └─────────────────────────────────────────────────────────────────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ DETAIL TABLE                                                                                  │
+│  Columns: Card No | Card Assigned To | Date | Month | Status | Particulars | Cost Center | ₹ │
+└──────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+2. Detail table mockup (like your screenshot)
+
+example info taking : 
+
++----------+------------------+------------+----------+----------+-------------+-------------+----------+
+| Card No  | Card Assigned To | Date       | Month    | Status   | Particulars | Cost Center | Amount ₹ |
++----------+------------------+------------+----------+----------+-------------+-------------+----------+
+| M003     | Akash Verma      | 05-Jan-25  | Jan-2025 | Active   | ChatGPT     | CC-OPS      |  2,000   |
+| M003     | Akash Verma      | 10-Feb-25  | Feb-2025 | Active   | Ahrefs      | CC-IT       |  3,500   |
++----------+------------------+------------+----------+----------+-------------+-------------+----------+
+
+
+3. Pie chart mockup (Mermaid copy-paste)
+
+A. Expense by Business Unit
+
+pie title Expense Share by Business Unit
+  "Ops" : 35
+  "Support" : 25
+  "IT" : 30
+  "CTC" : 10
+
+
+B. Expense by Status (Active vs Deactive)
+
+xychart-beta
+  title "Service Expense (Active vs Deactive)"
+  x-axis ["ChatGPT","Ahrefs","Jira","Slack"]
+  y-axis "Expense (₹)" 0 --> 100
+  bar "Active"   [55,40,20,18]
+  bar "Deactive" [ 5, 5,10, 7]
+
+
+
+5. Recurring graph (One-time / Monthly / Yearly)
+
+xychart-beta
+  title "Recurring Type Distribution"
+  x-axis ["One-time","Monthly","Yearly"]
+  y-axis "Count" 0 --> 50
+  bar [12,40,9]
+
+
+(You can switch Y-axis to Expense (₹) using the same structure.)
+
+6.
+
+Big Expense Trend (combo idea)
+
+Mermaid doesn’t do true combo bars+line everywhere, so here are two copy-paste options:
+
+Option A: Trend line (date/month wise)
+
+xychart-beta
+  title "Expense Trend (Monthly)"
+  x-axis ["Jan","Feb","Mar","Apr","May","Jun"]
+  y-axis "Expense (₹)" 0 --> 100
+  line [30,45,28,60,55,80]
+
+
+Option B. Bars (monthly totals)
+
+xychart-beta
+  title "Monthly Total Expense"
+  x-axis ["Jan","Feb","Mar","Apr","May","Jun"]
+  y-axis "Expense (₹)" 0 --> 100
+  bar [30,45,28,60,55,80]
+
+
+
+7.  Cost Center graph (metric selector)
+
+Cost Center Graph
+Metric Dropdown: [ Total Expense ▼ | Active Tools ▼ | Deactive Tools ▼ ]
+
+Example view (Total Expense):
+CC-OPS   ████████████████
+CC-SUP   ███████████
+CC-IT    █████████████
+CC-CTC   █████  
+
+
+Mermaid version:
+
+xychart-beta
+  title "Cost Center - Total Expense"
+  x-axis ["CC-OPS","CC-SUP","CC-IT","CC-CTC"]
+  y-axis "Expense (₹)" 0 --> 100
+  bar [70,45,55,15]
+
+
+8.  Component list (what you should build on UI)
+
+1. Filters Panel
+   - Date Range picker
+   - Month dropdown
+   - Year dropdown
+   - Business Unit multi-select
+   - Service multi-select
+   - Status (Active/Deactive) radio
+   - Recurring type dropdown (One-time/Monthly/Yearly)
+   - Disable Dates toggle + picker/list
+   - Cost Center dropdown
+   - Card Assigned To dropdown
+   - Search box (Particulars / Card No)
+   - Apply / Reset buttons
+
+2. KPI Cards
+   - Total Expense (₹)
+   - Expense Count (no. of purchases)
+   - New Active Tools (count)
+   - Deactive Tools (count)
+
+3. Charts
+   - Expense Pie (toggle grouping: BU / Service / Status)
+   - Service Type Bar (metric switch: Expense/Count; view: total/stacked)
+   - Recurring Bar (count or expense)
+   - Big Expense Trend (monthly/date wise)
+   - Cost Center Bar (metric dropdown)
+   - Detail Table (drill-down on click from any chart)
+
+
+OVERALL PURPOSE (FROM YOUR IMAGES)
+
+You are designing an Expense Analytics Dashboard for tools/services purchased using cards, where:
+
+✅ Every graph, pie chart, count, and KPI
+✅ Changes dynamically based on Date / Month / Year / Business Unit / Service / Status / Recurring type / Disable dates
+✅ Supports drill-down + combinations of filters
+
+1️⃣ CORE DATA YOU HAVE (FROM TABLE IMAGE)
+
+Your base expense data looks like this:
+
+Card No
+Card Assigned To
+Transaction Date
+Month
+Year
+Status (Active / Deactive)
+Service / Tool Name
+Business Unit
+Cost Center
+Recurring Type (One-time / Monthly / Yearly)
+Expense Amount
+Disable Date (if any)
+
+
+Example you showed:
+
+M003 | Akash Verma | 05-Jan-25 | Jan-2025 | Active | ChatGPT
+M003 | Akash Verma | 10-Feb-25 | Feb-2025 | Active | Ahrefs
+
+
+👉 This table is the backbone of all analytics.
+
+2️⃣ GLOBAL RULE (VERY IMPORTANT – FROM YOUR NOTE)
+
+ALL analytics graphs, pie charts, and counts are shown on the basis of:
+
+Date
+
+Expense
+
+Combination of filters
+
+✅ This means every widget reacts to filters
+✅ No static chart exists
+✅ Everything is dynamic
+
+3️⃣ EXPENSE PIE CHART (FROM IMAGE 1)
+Purpose
+
+To show expense distribution.
+
+Variations (toggle based)
+
+Pie chart can be shown on basis of:
+
+• Business Units
+• Services
+• Status (Active / Deactive)
+• Disable Date (optional logic)
+
+Example logic
+Group expense by Business Unit
+Sum expense
+Show % share
+
+UX toggle
+[ Group By ▼ ]
+- Business Unit
+- Service
+- Status
+
+4️⃣ TYPE OF SERVICE → BAR GRAPH (FROM IMAGE)
+Purpose
+
+To compare services/tools visually.
+
+X-axis
+Service Name (ChatGPT, Ahrefs, Jira, etc.)
+
+Y-axis (switchable)
+• Total Expense
+• Count of Purchases
+
+Grouping
+On basis of:
+- Business Unit
+- Status (Active / Deactive)
+
+Example
+ChatGPT | ███████████
+Ahrefs  | ███████
+Jira    | █████████████
+
+5️⃣ RECURRING GRAPH (VERY CLEAR IN IMAGE)
+Graph Type
+
+➡ Bar Graph
+
+Categories
+• One-time
+• Monthly
+• Yearly
+
+Metrics
+• Count of expenses
+• OR Total expense
+
+Filters applied
+• Date
+• Business Unit
+• Month
+• Year
+
+Purpose
+
+To answer:
+
+“How many of our expenses are recurring vs one-time?”
+
+6️⃣ BIG EXPENSE GRAPH (LINE + BAR) 📈
+Purpose
+
+To show expense trend over time
+
+Graph Type
+Combo Graph
+• Bars → Expense amount
+• Line → Trend direction
+
+X-axis options
+• Date
+• Month
+• Year
+
+Changes based on
+• Business Unit
+• Total Expense
+• Date range
+• Services
+• Combination of ALL filters
+
+
+This is your primary trend analysis chart.
+
+7️⃣ TOTAL EXPENSE COUNT (KPI BOX)
+
+From image:
+
+Total Expense
+-- show count --
+
+Meaning
+
+This is:
+
+COUNT of expense records
+(not amount)
+
+Filtered by
+• Date
+• Business Unit
+• Service
+• Status
+• Recurring
+
+8️⃣ EXPENSE ACCORDING TO BUSINESS UNIT
+Purpose
+
+To show expense count or expense value per BU
+
+Two versions
+• Business Units Expense – Count
+• Business Units Expense – Amount
+
+Changes with
+• Month
+• Year
+• Business Unit selection
+
+9️⃣ NEW ACTIVE TOOLS (COUNT)
+
+From image:
+
+No. of New Active Tools — Count
+
+Meaning (important logic)
+
+A tool is counted when:
+
+Status = Active
+AND
+First time appeared in selected Month/Year
+
+Filters
+• Month
+• Year
+• Business Unit
+
+🔟 DEACTIVE TOOLS (COUNT + LOGIC)
+
+From image:
+
+No. of Deactive Tools — Count
+
+Meaning
+Tools whose status = Deactive
+AND
+Have disable date
+
+Filters
+• Business Unit
+• Month
+• Year
+• Disable Date
+
+1️⃣1️⃣ COST CENTER GRAPH (FROM LAST IMAGE)
+Graph Type
+
+➡ Bar Graph
+
+X-axis
+Cost Centers
+(OPS, Support, IT, CTC)
+
+Y-axis (dynamic metric)
+• Total Expense
+• No. of Active Tools
+• No. of Deactive Tools
+
+Filters applied
+• Business Unit
+• Month
+• Year
+• Date
+
+1️⃣2️⃣ BUSINESS UNIT FILTER IMPACT (VERY CLEAR)
+
+From your note:
+
+Business Unit filters →
+- No of purchases
+- Total expense
+- Active / Deactive tools
+
+
+Meaning:
+
+Selecting a Business Unit affects:
+✔ KPIs
+✔ All charts
+✔ Table
+✔ Counts
+
+1️⃣3️⃣ DISABLE DATE LOGIC (IMPORTANT)
+
+From multiple places in images:
+
+Disable Date is used to:
+• Identify deactive tools
+• Filter analytics
+• Show historical vs current status
+
+
+Example logic:
+
+If Disable Date <= selected date range
+→ Tool counted as Deactive
+
+1️⃣4️⃣ FINAL SYSTEM SUMMARY (FROM ALL IMAGES)
+Your system includes:
+✔ Central Expense Table
+✔ Advanced Filter Panel
+✔ KPI Cards
+✔ Pie Charts
+✔ Bar Graphs
+✔ Line / Combo Graphs
+✔ Cost Center Analytics
+✔ Active / Deactive Tracking
+✔ Recurring vs One-time analysis
+✔ Drill-down support
+
+And follows this rule:
+
+Every visual = Expense + Date + Filters Combination

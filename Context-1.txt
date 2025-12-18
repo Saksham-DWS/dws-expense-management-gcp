@@ -1,0 +1,528 @@
+
+Expense management ecosystem application Project Goal : 
+
+Frontend : 
+Use React + Vite with JSX
+Style with Tailwind CSS
+Implement a modern, responsive, best-in-class UI/UX
+Include all essential frontend dependencies, tooling, and optimizations.
+
+Backend : Use Node.js + Express.js, Follow MVC or a modern, scalable architecture, Include all required backend dependencies and tools for a clean, high-quality codebase
+Implement features such as:
+
+Notifications
+Email functionality using Nodemailer
+Any other necessary utilities or middleware
+
+Database : Use MongoDB, Include all required ORM/ODM tools (e.g., Mongoose) and database-related dependencies
+
+Deliverables : 
+Provide:
+Full technical documentation
+Complete guide / setup instructions
+Full runnable source code for both frontend and backend
+A complete folder structure with backend and frontend folder
+The project must run out-of-the-box on my system.
+The final output should represent a best-in-class full-stack platform with clean architecture, excellent UI/UX, and production-quality code. Use all required tools and technologies and required dependencies for all feature and functional features
+
+
+*****Main Project Goal : 
+
+Hey we have project of expense management ecosystem application 
+
+There will be 5 type of users each user have have its own Dashboard and login page end point 
+
+1. Super Admin
+2. Business Unit Admin
+3. Business Unit Spoc 
+4. Service Handler 
+5. MIS - Expense Manger
+
+Business Unit Admin a Head of Business Unit and its profile always show whos business Unit Admin he/she is.
+
+Business Unit Spoc is a User or expense doer of any business Unit any business Unit will have its own Spoc and Spoc user will also be shown that which business Unit spoc he is in its profile or Dashboard.
+
+MIS Manger is a person who can login as a MIS Manger and he will have a access of global expense sheet from all combined businss units spending data in a global expense sheet. 
+
+Service Handler is the user who is using the service on the name of him the service is bought so service Handler can only see his taken and oriented service from of any business unit each business unit will have multiple service handler account when created. 
+
+Super Admin  :  Super Admin can see and manage everything and can create logins credentials for everyone on the application for business unit admins, for business unit spocs , for mis manager, for service handlers etc and etc work defined down in knowledge.
+
+
+
+**Spoc is defined by every business Unit of their own.
+  spoc is authorized by business Unit
+  Spoc is who has authorized to run the business units card.
+
+
+
+Business Unit name  : [DWSG, Signature, Collabx, Wytlabs, Smegoweb]
+
+**Super Admin can create
+-Accounts of Spocs 
+-Accounts of MIS Expense Manger
+-Accounts of Business Unit Admind
+-Accounts of Service handlers
+
+**Super Admin and Business Unit Admin can create spocs accounts but each business Unit Admin can only create account of its own business unit spoc but super admin can create any business unit spoc , any business admins , any service handler of business unit , and MIS manger account 
+
+**Business Unit Admin :  Each busines Unit admin can only see its business unit related expense sheet in its dashboard like excel like sheet 
+for each business unit they gonna have thier own generated spoc account who have access to that business unit card and spoc can use the card to make payments for any service for their service handler too use.
+
+Real data values of columns are in global expense sheet  : 
+
+1.Card Number/Payment from
+2.Card Assigned To
+3.Date
+4.Month
+5.Status
+6.Particulars - from cc statement
+7.Narration - from statement
+8.Currency
+9.Bill Status
+10.Amount (USD/Euro/Any)
+11.XE (Current Conversion Rate to INR)
+12.Amount in INR
+13.Types of Tools or Service
+14.Business Unit
+15.Cost Center
+16.Approved By
+17.Tool or Service Handler
+18.Recurring/One-time
+19.Edit/Update details
+
+
+In XE current the system always keeps update the current Conversion rate in of USD or any currency to INR so everyone on the system can see the real expense rate of the item into INR weather it is USD, Euro etc.
+
+Expense Sheet drop downs  : in all sheets who is entering the details 
+
+Types of Expense : [Domain,  Google, Google Adwords Expense, Hosting, Proxy, Server, Service, Tool]
+
+Busines Unit Names : [DWSG, Signature, Collabx, Wytlabs, Smegoweb]
+
+Cost Center : [Ops,  FE, OH Exps, Support, Management EXPS]
+
+Approved By : [Vaibhav,  Marc, Dawood, Raghav, Tarun, Yulia, Sarthak, Harshit]
+
+Recurring : [Monthy, Yearly, One-time]
+
+
+In Dashboard of poeple who have the access of seeing global expense sheet of all subscribed services & tools can also search the services in search bar with any primary key type 
+value which is Card no, Date , Service name ( Particulars) Business Unit 
+
+
+
+*****MIS******
+
+Working role part of MIS manager : 
+
+MIS have the capabilites to enter the subscription and service tools purchase entry of each group in mis dashboard by clicking add new these entries can be of any one or of any business unit cause the mis directly embedd that entry in global expense sheet/table
+
+Also in MIS Dashboard
+MIS can do bulk upload thoose sheet data entries that the sheet or table MIS maintianed for itself for re retification.
+
+Also can click Add new button to add new entry in global expense sheet if that entry is already there in global sheet with the unique values like same date , same tool /Particulars name or same business unit same user like all data is same so our system will merge and say in end of that row is that the data is duplicate you entered and its already present in global sheet  and we merged it in and in end of that mereged data row and rows if multiple same data merged our sheet will show merged as new columnm under
+
+Real data values of columns are in global expense sheet  : 
+
+1.Card Number/Payment from
+2.Card Assigned To
+3.Date
+4.Month
+5.Status
+6.Particulars - from cc statement
+7.Narration - from statement
+8.Currency
+9.Bill Status
+10.Amount (USD/Euro/Any)
+11.XE (Current Conversion Rate to INR)
+12.Amount in INR
+13.Types of Tools or Service
+14.Business Unit
+15.Cost Center
+16.Approved By
+17.Tool or Service Handler
+18.Recurring/One-time
+19.Edit/Update details
+
+
+
+
+
+-------------------------------------MIS Dashboard Design------------------------------------------------------
++--------+
+| search | Search button 
++--------+ 
+
++--------------+
+| Hyper filter | This is the filter button when open MIS Can filter the sheet by Month, Date, Card No, Business Unit or by status active or Dactive
++--------------+
+
++--------------+
+| Export sheet | : In this Export sheet button MIS can download current sheet by selecting how much number of rows to download or can downlaod number of filtered sheets based on filters 
++--------------+
+
+
+Add new entry Button 
++-------------+   +------------+
+|Add New Entry|   | Bulk Add   |  Bulk ADD Button
++-------------+   +------------+
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  | Edit/Update details |        
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| M003         | John Doe           | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | Wytlabs        | OPS         | Raghav      | Raghav                                | Yearly              |  Edit               |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya Shah         | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | DWSG           | OH EXPS     | Tarun       | Tarun                                 | One-time            |  Edit               |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C003         | Akash Verma        | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | CollabX        | Support     | Yulia       | Yulia                                 | Monthly             |   Edit              |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+
+
+Now MIS Real work is to check the Global Expense table , is there Any Discripency or not is any of the entry of any business unit expense entry
+
+-MIS can click on edit & update on global sheet of Any entry & can change or update entry of any particular tool or any entry row 
+so to correct any miss inputed entry & save then the entry will be updated in the global sheet of expense or table we say
+-MIS can Bulk upload its own maintianed sheet or add new entry by itself manually 
+but in bulk upload we will map each column to its defined value to current global sheet when MIS upload a do so, so whatever sheet MIS upload our system will parse 
+and map the input values to the corrected global sheet as like column values if something is missing that field will be empty
+
+-Also if MIS month end entry or whatever the count of entries bulk uploaded by mis on our system into global sheets if the bulk entries of mis sheet are same 
+with current live global sheet entries like all columns and row of each service value are same 
+
+example  : 
+
+MIS uploaded data  : 
+
+Card No      | Card Assigned To   | Date       | Month     | Status    etc
+C002         | Priya Shah         | 10-Feb-25  | Feb-2025  | Active    etc
+
+Global Sheet : 
+
+Card No      | Card Assigned To   | Date       | Month     | Status    etc
+C002         | Priya Shah         | 10-Feb-25  | Feb-2025  | Active    etc
+
+if that condition happens then our system will merge the two sheets and show the merged data in the global sheet and in the end of mis dahsboard of global expense sheet it will show data is duplicated from you sheet and now the data is merged and in the gloabl sheet end of row of mis dashboard mis can see the merged signed value that data is dupliacted and merged
+and if no duplicate data on uploaded sheet that data will be added in the global sheet and count as accountable and updated in the sheet
+
+Means if both MIS & Global entries all nodes are same our system will understand the entries & understand the entries uploaded by MIS is duplicate so our 
+system will say on the end of every entry row to MIS global sheet dashbaord that entry is merged if any entry is duplicated
+
+example  :  this is the example after uploading of bulk sheet by mis and our system already detected the dupliacted entries and marked them merged in end and those entries were new added no previous record are marked as unique system
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  | Edit/Update details | Merged / unique |     
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+| M003         | John Doe           | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | Wytlabs        | OPS         | Raghav      | Raghav                                | Yearly              |  Edit               |  Merged         |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+| C002         | Priya Shah         | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | DWSG           | OH EXPS     | Tarun       | Tarun                                 | One-time            |  Edit               |  unique         |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+| C003         | Akash Verma        | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | CollabX        | Support     | Yulia       | Yulia                                 | Monthly             |   Edit              |  Merged         |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+
+the mereged and unique marked column will only see by MIS not super admin cause super admin will only see global expense sheet and not the merged and unique column
+this mereged and unique columne is generally for data completness for mis cause mis is bulk uploading the entries here ,
+also same logic applies for Add new manual entry in MIS dashbaord when making new entry to global expense sheet when mis is do so and making a new entry in new row of global expense sheet
+if that entry is already present in global expense sheet then our system will merge and say mereged and if not and if it is new and unique entry with no past not present it will be added and marked as unique 
+
+Every entry has to be unique in its own way a singled dated entry of all same data should a single entry no duplicates are allowed in our system.
+
+
+MIS :  Mis will also have filters for its global expense sheet/table for consolidated and vast viewing and analytical experience
+mis can filter the whole table on the single and combinational filters like filter by data : when filter all selected dates entries will be showing in mis dashboard gloabl expense sheet in mis dashboard
+more filters like by month, by card no, , business unit , by status (Active or deactive) marked , or any combinational and all sort of filters possible
+and the table/sheet comes by these filters or combination of filters will be shown in mis dashboard of global expense sheet 
+
+example  : filtered : By date , by business unit wytlabs, by status active
+
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  | Edit/Update details | Merged / unique |     
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+| M001         | laur Doe           | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | Wytlabs        | OPS         | Marc        | Raghav                                | Yearly              |  Edit               |  Merged         |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+| M001         | Priya Shah         | 05-Jan-25  | Jan-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | Wytlabs        | OH EXPS     | Marc        | Tarun                                 | One-time            |  Edit               |  unique         |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+-----------------+
+| M001         | Ayesha Verma       | 05-Jan-25  | Jan-2025  | Active    | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | Wytlabs        | Support     | Marc        | Yulia                                 | Monthly             |   Edit              |  Merged         |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+like these understand what i am describing in the context
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+****Spoc for each business unit****************************
+
+Now the role of each business unit created spoc 
+
+-The spoc work is simple Spoc is the authorized signatory of business unit card holder that a spoc belongs 
+-When spoc purchases something for his business unit spoc will enter the details in its dashbaord of the expense entry table each spoc can
+only enter its own business unit enteries and those entries will be submerged and shown in the gloabal expense sheet of multiple business units who have access by MIS and super admin 
+
+Spoc and business unit admin can only see entries of their own business unit not others
+
+Spoc then after entring the details & entering full entry is logged in dashbaord expense table/sheet that entry will be falshing and showing in gloabl expense sheet only
+after entering a details and spoc click update on row end to save the entry , when spoc try to update the new entry and save on the expense entry dashbaord of spoc and click on the end of entry tbale update the current entry
+A email will be triggered to the spoc's respected business unit admin email , In that email all the details of the entry will be attached or written and a In Email mechanism Button will be delivered too
+such that the New entry All details & 2 button wiil be shown which ( Approv/ reject) ,  if the business unit admin click on Approve in email button the entry on spoc dashbaord will be marked approved and will be shown in spoc expense sheet as done and will be update in the Global expense sheet as new entry automatically
+and if the business unit admin click reject the entry will be pending.
+
+for example  : 
+
+Spoc Dashboard
+
+Business Unit Name  : [DWSG, Signature, Collabx, Wytlabs, Smegoweb] any that spoc is of which busines unit 
+
+example  : 
+
+-------------------------------------Spoc Dashboard Design------------------------------------------------------
+
+Business Unit Name  : DWSG
+
+Business Unit Admin name : Marc 
+
+
+Dashboard 
+
+Add new entry Button 
++-------------+   
+|Add New Entry|   when click on add new entry spoc and enter each column entry detail manually and only its own business unit option will show under business unit drop down
++-------------+   
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  | Save/update         |        
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | ______________     | _________  | ________  | ______    | ______                           | _______                          | ___      |             | ___                      | 83.50  automatically converted            | 16700          |  ______ dropdown open        | ____           | __drop down | ______      |  ________                             | ______              |  Save/Update        | Save /update button when entry is being entered 
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | DWSG           | OH EXPS     | Tarun       | Tarun                                 | One-time            |  Accepted           |  Accepted will be showing when the business unit admin approved the entry in email and clicked on approve and that entry will marked as accepted and that entry will be update to global expense sheet. 
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | DWSG           | Support     | Yulia       | Yulia                                 | Monthly             |   Accepted          |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | DWSG           | OPS         | Raghav      | Raghav                                | Yearly              |    Rejected         | Rejected shows when the business unit admin reject the entry on the email of that entry and clicked reject button and after that , that particular entry will be marked reject and will not update or entered on the global expense.
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | DWSG           | OH EXPS     | Tarun       | Tarun                                 | One-time            |  Rejected           |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | DWSG           | Support     | Yulia       | Yulia                                 | Monthly             |   pending           | pending will show when there no action performed by the business unit admin in the entry details email which is autosended by the system to the respected business unit admin when spoc entered the details and clicked saved button in entry end
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+
+
+Save /update button when entry is being entered 
+Accepted will be showing when the business unit admin approved the entry in email and clicked on approve and that entry will marked as accepted and that entry will be update to global expense sheet. 
+Rejected shows when the business unit admin reject the entry on the email of that entry and clicked reject button and after that , that particular entry will be marked reject and will not update or entered on the global expense.
+pending will show when there no action performed by the business unit admin in the entry details email which is autosended by the system to the respected business unit admin when spoc entered the details and clicked saved button in entry end.
+
+After 2 or 3 days the rejected marked entries will be auto deleted from the spoc expense dashboard of its own business unit
+
+**After any business unit spoc expense entry updated to global sheet an email will be triggered to the MIS manager email with 
+all entered entries and with the spoc name and the business unit of the spoc and all expense related details of the expense sheet which is entered by the spoc 
+by this mis will have the details to keep the true data info.
+
+
+****MIS and Spoc contraint
+
+We already talked about MIS edit and update sheet details feature.
+
+the details entered by any spoc who is updated on the global expense sheet/table and MIS also have global expense sheet/table in each entry mis have the capability 
+to edit and update any entered details in the global expense sheet column row details respectivly , if any details is missed by the spoc to enter ,  when mis click edit in end of row after recurruning column another column where mis can click edit and after editing details in certain entry and click on update on same button that will became update after updating details.
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+**************Service Handler account and dahsboard********************************
+
+
+Another account is of service handler : service handler is who is using the serivces or on the name of whome the serivces have been purchased,
+A serivce handler is who has its name on the global expense table under (tools or serivce handler (user name) ) column where all different different service handler names appears of different different entires and under different different business units
+
+A service handler will have its own dashbaord and a account where service handler can only see the serivces he/she is using and alloted to from the global expense sheet as the service handler name will be on the global sheet.
+
+Service handler can see the serivces aloted to him/her 
+
+serivce handler account can be created by Super admin with all the details and the Business unit admin as well with all the required details 
+
+Now Also serivce handler can click on disable button on every serivce entry he/she is using at the row end    | diable | button 
+because if the serivce handler don'nt wanted to continue with that serivce the serivce handler will be click on disable that serivce a condition here is the serivce
+handler need to manually cancel the service subscription and then needs to click on the disable button , also when click to disable button a generall ask out by our system will be pop up did you canceled subscription  and if serivce handler click yes and email will be 
+triggered to the MIS expense manager with all the details of that serivce and all details and we already talked about that the mis will be having a feature called edit/update gloabl expense sheet entries
+
+what our MIS do if he got the disable request from the serivce handler the mis logged into his account and in global sheet he will search all details that wanted to cancel and mis
+will click on edit/update and click the status column row of that particular entry that has to be disable and from drop down that entry will be marked as deactive under status column row and will click on update and that particular entry will be updated gloabally in 
+gloabal expense sheet.
+
+
+--------------------------------------Serivce Handler dashbaord Desing---------------------------------------------------------
+
+Business Unit Name  : Wytlabs or any                                                                                         notification icon                    Profile icon when clicked 2 drop down opens see profile , logout.
+
+Business Unit Admin name : Marc 
+
+
+
+Dashboard 
+
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  |   Disable           |        
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| M003         | Akash verma        | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | Wytlabs        | OPS         | Tarun       | Saksham                               | Yearly              |   Disable           |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| M003         | Akash verma        | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | Wytlabs        | OH EXPS     | Tarun       | saksham                               | One-time            |   Disable           |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| M003         | Akash Verma        | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | Wytlabs        | Support     | Tarun       | saksham                               | Monthly             |   Disable           |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+
+
+
+-Also another system a cancelation of service subscription request notification asked before new renewal date of the services before 5 days of renewal
+and it is a mandatory feature
+
+the service handler will get first email notification of particular service renewal request email before 5 days from our system that do you continue with this service or tool
+with all tool related details , and our serivce handler will logged into his account then he can see in notification panel same notification or notifications 
+if service handler click on yes button and asks for reason to continue and our service handler will log the reason to continue and the info will be logged and the logs will be showing under the a button in end of that serivce row logs with dates nothing will happend and the subscription will be auto updated with no updations
+
+and if service handler will click on No button in that service continue notification or in sheet serivce handler will click no a email will be triggered to mis expense manager to cancel the subscription with all detials of subscription
+and our service handler will log the reason too of not using it too.
+
+and mis after getting the email from system that this serivce handler requested to de subscribed this tools and all info of from that particular tools service expense sheet mis will can manually and will update 
+that service on its global expense sheet dashbaord in the global expense sheet entry , search that particular service by date , name etc identical things and click on edit and update button and marked that serivce diactive form drop down than click on again that update button to save entry updates then that service will be marked deactive and updated globally and marked deactive.
+
+
+this is for all serivce handler account holders of each business unit who have their name in the Tool or Service Handler (User Name) column of global expense sheet.
+
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+----------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  |   Disable           |  notification  |      
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+----------------+
+| M003         | Akash verma        | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | Wytlabs        | OPS         | Tarun       | Saksham                               | Yearly              |   Disable           |  yes / no      |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+----------------+
+| M003         | Akash verma        | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | Wytlabs        | OH EXPS     | Tarun       | saksham                               | One-time            |   Disable           | yes / no       |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+----------------+
+| M003         | Akash Verma        | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | Wytlabs        | Support     | Tarun       | saksham                               | Monthly             |   Disable           |  yes / no      |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+----------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------Business Unit admins Dashboard Design------------------------------------------------------
+
+Business unit Admin holder dashbaord is similar like to their spoc dahsboard but they will have the feature to create their spoc accounts and as well as their service handlers accounts
+
+
+
+Business Unit Name  : DWSG
+
+Your name :  Marc 
+
++--------+
+| search | Search button 
++--------+ 
+
++--------------+
+| Hyper filter | This is the filter button when open Business unit admin Can filter the sheet by Month, Date, Card No, Business Unit or by status active or Dactive
++--------------+
+
++--------------+
+| Export sheet | : In this Export sheet button Business unit admin  can download current sheet by selecting how much number of rows to download or can downlaod number of filtered sheets based on filters 
++--------------+
+
+
+Dashboard 
+
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  | Save/update         |        
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | DWSG           | OH EXPS     | Tarun       | Tarun                                 | One-time            |  Accepted           |  Accepted will be showing when the business unit admin approved the entry in email and clicked on approve and that entry will marked as accepted and that entry will be update to global expense sheet. 
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | DWSG           | Support     | Tarun       | Yulia                                 | Monthly             |   Accepted          |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | DWSG           | OPS         | Tarun       | Raghav                                | Yearly              |    Rejected         | Rejected shows when the business unit admin reject the entry on the email of that entry and clicked reject button and after that , that particular entry will be marked reject and will not update or entered on the global expense.
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | DWSG           | OH EXPS     | Tarun       | Tarun                                 | One-time            |  Rejected           |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya              | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | DWSG           | Support     | Tarun       | Yulia                                 | Monthly             |   pending           | pending will show when there no action performed by the business unit admin in the entry details email which is autosended by the system to the respected business unit admin when spoc entered the details and clicked saved button in entry end
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+
+for example of filters :  7 days expense, expense by card, expense by status active or deactive, expense by month, expense by date, expense by card no, expense by types of tool or serivce
+
+who expended more than 100$ or other sort of possible can be applicable kindly apply those filter features.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+super admin , Busines unit admin , mis expense manager will have same filter but business unit admin will not have a filter called filter by business units but 
+this filter by business units filter will be on MIS and Super admin dashbaord and will be able to filter other things too.
+
+---------------------------
+
+
+
+
+
+----------------------------------------Super Admin Dashboard Desig and capabilites---------------------------------------------------------------------------
+
+
+
++--------+
+| search | Search button 
++--------+ 
+
++--------------+
+| Hyper filter | This is the filter button when open Super admin Can filter the sheet by Month, Date, Card No, Business Unit or by status active or Dactive
++--------------+
+
++--------------+
+| Export sheet | : In this Export sheet button Super  can download current sheet by selecting how much number of rows to download or can downlaod number of filtered sheets based on filters 
++--------------+
+
+
+Add new entry Button 
++-------------+   +------------+
+|Add New Entry|   | Bulk Add   |  Bulk ADD Button
++-------------+   +------------+
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| Card No      | Card Assigned To   | Date       | Month     | Status    | Particulars (from CC statement) | Narration (from the statement)    | Currency | Bill Status | Amount (USD/Euro/Any)    | XE (Current Conversion Rate to INR)       | Amount in INR  | Types of Tools or Service    | Business Unit  | Cost Center | Approved By | Tool or Service Handler (User Name)   | Recurring/One-time  | Edit/Update details |        
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| M003         | John Doe           | 05-Jan-25  | Jan-2025  | Active    | ChatGPT                          | ChatGPT                          | USD      |             | 200                      | 83.50                                     | 16700          |  Domain                      | Wytlabs        | OPS         | Raghav      | Raghav                                | Yearly              |  Edit               |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C002         | Priya Shah         | 10-Feb-25  | Feb-2025  | Active    | Ahrefs                           | Ahrefs                           | USD      |             | 500                      | 83.50                                     | 41750          |  Tool                        | DWSG           | OH EXPS     | Tarun       | Tarun                                 | One-time            |  Edit               |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+| C003         | Akash Verma        | 12-Mar-25  | Mar-2025  | Declined  | GoDaddy                          | GoDaddy                          | USD      |             | 300                      | 83.50                                     | 25050          | Hosting                      | CollabX        | Support     | Yulia       | Yulia                                 | Monthly             |   Edit              |
++--------------+--------------------+------------+-----------+-----------+----------------------------------+----------------------------------+----------+-------------+--------------------------+-------------------------------------------+----------------+------------------------------+----------------+-------------+-------------+---------------------------------------+---------------------+---------------------+
+
+
+
+-Super Admin capabilites 
+
+-Super Admin create MIS-> Login credentials
+-Super Admin can create Busness unit Admin Accounts
+
+-Super Admin can create business unit spoc account also business unit admin can create its own spoc account 
+
+-Super admin will also have dashbaord like MIS expense manager and global expense sheet 
+
+and global expense sheet will only be seen by super admin and MIS manager on thier dashbaord as we already know.
+
+-Super admin also can edit and update detials in global expense sheet just like MIS and also have more capabilites more than MIS 
+
+-Super admin can also apply all sort of single and combinational filters on the global sheet and those entries will be showing in global sheet after filter application
+
+
+this filter capabilites will be on MIS and Super Admin dashbaord only 
+
+for example :  7 days expense, expense by business unit, expense by card, expense by status active or deactive, expense by month, expense by date, expense by card no, expense by types of tool or serivce
+
+who expended more than 100$ or other sort of possible can be applicable kindly apply those filter features.
+
+
+
+
