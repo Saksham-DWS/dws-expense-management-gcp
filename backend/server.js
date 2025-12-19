@@ -25,7 +25,7 @@ const app = express();
 // Middleware
 app.use(helmet());
 
-const allowedOrigins = [process.env.FRONTEND_URL].filter(Boolean);
+const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:5173'].filter(Boolean);
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (mobile apps, curl, Cloud Run health checks)
@@ -81,26 +81,23 @@ app.get('/', (req, res) => {
 // Error handler (must be last)
 app.use(errorHandler);
 
-// Start server: connect DB first, then listen. Do not exit on transient failures.
+// Start server: bind immediately so Cloud Run sees the listener, then connect DB asynchronously.
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
 
-const startServer = async () => {
-  try {
-    await connectDB();
-    console.log('MongoDB connected');
-    initializeCronJobs();
+app.listen(PORT, HOST, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on ${HOST}:${PORT}`);
 
-    app.listen(PORT, HOST, () => {
-      console.log(`Server running in ${process.env.NODE_ENV} mode on ${HOST}:${PORT}`);
+  connectDB()
+    .then(() => {
+      console.log('MongoDB connected');
+      initializeCronJobs();
+    })
+    .catch((err) => {
+      console.error('MongoDB connection failed:', err.message);
+      // Do not exit; allow container to keep serving health and retry later.
     });
-  } catch (err) {
-    console.error('Startup failed:', err);
-    // Do not exit in Cloud Run; let the platform restart/retry.
-  }
-};
-
-startServer();
+});
 
 // Handle unhandled promise rejections without killing the process
 process.on('unhandledRejection', (err) => {
