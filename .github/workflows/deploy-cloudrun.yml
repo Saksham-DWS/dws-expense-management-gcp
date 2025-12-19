@@ -158,6 +158,3 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --port 8080
-
-      - name: Frontend URL
-        run: gcloud run services describe "${{ env.FRONTEND_SERVICE }}" --region "${{ env.REGION }}" --format 'value(status.url)'
