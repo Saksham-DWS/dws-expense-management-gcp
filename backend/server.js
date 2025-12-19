@@ -81,26 +81,30 @@ app.get('/', (req, res) => {
 // Error handler (must be last)
 app.use(errorHandler);
 
-// Start server and connect to DB after binding the port so Cloud Run sees the listener
+// Start server: connect DB first, then listen. Do not exit on transient failures.
 const PORT = process.env.PORT || 8080;
-const HOST = process.env.HOST || '0.0.0.0';
-app.listen(PORT, HOST, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on ${HOST}:${PORT}`);
+const HOST = '0.0.0.0';
 
-  connectDB()
-    .then(() => {
-      console.log('MongoDB connected');
-      initializeCronJobs();
-    })
-    .catch((err) => {
-      console.error('MongoDB connection failed:', err.message);
+const startServer = async () => {
+  try {
+    await connectDB();
+    console.log('MongoDB connected');
+    initializeCronJobs();
+
+    app.listen(PORT, HOST, () => {
+      console.log(`Server running in ${process.env.NODE_ENV} mode on ${HOST}:${PORT}`);
     });
-});
+  } catch (err) {
+    console.error('Startup failed:', err);
+    // Do not exit in Cloud Run; let the platform restart/retry.
+  }
+};
 
-// Handle unhandled promise rejections
+startServer();
+
+// Handle unhandled promise rejections without killing the process
 process.on('unhandledRejection', (err) => {
-  console.log(`Error: ${err.message}`);
-  process.exit(1);
+  console.error('Unhandled Rejection:', err);
 });
 
 export default app;
