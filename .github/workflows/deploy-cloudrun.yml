@@ -58,8 +58,6 @@ jobs:
         run: |
           cat <<EOF > /tmp/backend.env.yaml
           NODE_ENV: "production"
-          PORT: "8080"
-          HOST: "0.0.0.0"
           MONGODB_URI: "${{ secrets.BACKEND_MONGODB_URI }}"
           JWT_SECRET: "${{ secrets.BACKEND_JWT_SECRET }}"
           JWT_EXPIRE: "${{ secrets.BACKEND_JWT_EXPIRE }}"
