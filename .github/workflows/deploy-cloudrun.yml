@@ -82,10 +82,13 @@ jobs:
           EOF
 
       - name: Deploy backend to Cloud Run
+        env:
+          CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN: ""
         run: |
+          REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
           gcloud run deploy "${{ env.BACKEND_SERVICE }}" \
             --image "$BACKEND_IMAGE" \
-            --region "${{ env.REGION }}" \
+            --region "${REGION_TRIM}" \
             --platform managed \
             --allow-unauthenticated \
             --port 8080 \
@@ -147,10 +150,13 @@ jobs:
           docker push "$FRONTEND_IMAGE"
 
       - name: Deploy frontend to Cloud Run
+        env:
+          CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN: ""
         run: |
+          REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
           gcloud run deploy "${{ env.FRONTEND_SERVICE }}" \
             --image "$FRONTEND_IMAGE" \
-            --region "${{ env.REGION }}" \
+            --region "${REGION_TRIM}" \
             --platform managed \
             --allow-unauthenticated \
             --port 8080
