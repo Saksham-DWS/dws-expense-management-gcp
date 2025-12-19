@@ -21,7 +21,7 @@ jobs:
       contents: read
       id-token: write
     outputs:
-      backend-url: ${{ steps.backend-url.outputs.url }}
+      backend-url: ${{ steps.deploy-backend.outputs.backend-url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,29 +80,24 @@ jobs:
           EOF
 
       - name: Deploy backend to Cloud Run
+        id: deploy-backend
         run: |
-          unset CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN
+          unset CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN || true
           gcloud config unset api_endpoint_overrides/run || true
           REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
-          gcloud run deploy "${{ env.BACKEND_SERVICE }}" \
+
+          BACKEND_URL=$(gcloud run deploy "${{ env.BACKEND_SERVICE }}" \
             --image "$BACKEND_IMAGE" \
             --region "${REGION_TRIM}" \
             --platform managed \
             --allow-unauthenticated \
             --port 8080 \
             --min-instances 1 \
-            --env-vars-file /tmp/backend.env.yaml
+            --env-vars-file /tmp/backend.env.yaml \
+            --format="value(status.url)")
 
-      - name: Capture backend URL
-        id: backend-url
-        env:
-          CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN: ""
-        run: |
-          gcloud config configurations create clean || gcloud config configurations activate clean
-          gcloud config set project "${{ env.PROJECT_ID }}"
-          gcloud config set run/region "${{ env.REGION }}"
-          URL=$(gcloud run services describe "${{ env.BACKEND_SERVICE }}" --format="value(status.url)")
-          echo "url=${URL}" >> $GITHUB_OUTPUT
+          echo "Backend deployed at: $BACKEND_URL"
+          echo "backend-url=${BACKEND_URL}" >> $GITHUB_OUTPUT
 
   frontend:
     name: Build & Deploy Frontend
