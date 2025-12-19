@@ -15,11 +15,9 @@ import serviceHandlerRoutes from './src/routes/serviceHandlerRoutes.js';
 import logRoutes from './src/routes/logRoutes.js';
 import cronRoutes from './src/routes/cronRoutes.js';
 
+console.log('Starting Expense Backend...');
 // Load environment variables
 dotenv.config();
-
-// Connect to database
-connectDB();
 
 // Initialize Express app
 const app = express();
@@ -68,14 +66,20 @@ app.get('/', (req, res) => {
 // Error handler (must be last)
 app.use(errorHandler);
 
-// Initialize cron jobs
-initializeCronJobs();
-
-// Start server
+// Start server and connect to DB after binding the port so Cloud Run sees the listener
 const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || '0.0.0.0';
 app.listen(PORT, HOST, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on ${HOST}:${PORT}`);
+
+  connectDB()
+    .then(() => {
+      console.log('MongoDB connected');
+      initializeCronJobs();
+    })
+    .catch((err) => {
+      console.error('MongoDB connection failed:', err.message);
+    });
 });
 
 // Handle unhandled promise rejections
