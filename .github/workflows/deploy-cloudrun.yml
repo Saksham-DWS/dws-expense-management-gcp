@@ -82,9 +82,9 @@ jobs:
           EOF
 
       - name: Deploy backend to Cloud Run
-        env:
-          CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN: ""
         run: |
+          unset CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN
+          gcloud config unset api_endpoint_overrides/run || true
           REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
           gcloud run deploy "${{ env.BACKEND_SERVICE }}" \
             --image "$BACKEND_IMAGE" \
@@ -150,9 +150,9 @@ jobs:
           docker push "$FRONTEND_IMAGE"
 
       - name: Deploy frontend to Cloud Run
-        env:
-          CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN: ""
         run: |
+          unset CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN
+          gcloud config unset api_endpoint_overrides/run || true
           REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
           gcloud run deploy "${{ env.FRONTEND_SERVICE }}" \
             --image "$FRONTEND_IMAGE" \
