@@ -37,7 +37,7 @@ jobs:
           project_id: ${{ env.PROJECT_ID }}
 
       - name: Configure Docker auth
-        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+        run: gcloud auth configure-docker "${{ env.REGION }}-docker.pkg.dev" --quiet
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
@@ -115,7 +115,7 @@ jobs:
           project_id: ${{ env.PROJECT_ID }}
 
       - name: Configure Docker auth
-        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+        run: gcloud auth configure-docker "${{ env.REGION }}-docker.pkg.dev" --quiet
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
