@@ -37,14 +37,19 @@ jobs:
           project_id: ${{ env.PROJECT_ID }}
 
       - name: Configure Docker auth
-        run: gcloud auth configure-docker "${{ env.REGION }}-docker.pkg.dev" --quiet
+        run: |
+          REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
+          gcloud auth configure-docker "${REGION_TRIM}-docker.pkg.dev" --quiet
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push backend image
         run: |
-          BACKEND_IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPOSITORY }}/backend:${{ github.sha }}"
+          REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
+          PROJECT_TRIM=$(echo "${{ env.PROJECT_ID }}" | tr -d '[:space:]')
+          REPO_TRIM=$(echo "${{ env.ARTIFACT_REPOSITORY }}" | tr -d '[:space:]')
+          BACKEND_IMAGE="${REGION_TRIM}-docker.pkg.dev/${PROJECT_TRIM}/${REPO_TRIM}/backend:${{ github.sha }}"
           echo "BACKEND_IMAGE=$BACKEND_IMAGE" >> $GITHUB_ENV
           docker build -t "$BACKEND_IMAGE" ./backend
           docker push "$BACKEND_IMAGE"
@@ -115,7 +120,9 @@ jobs:
           project_id: ${{ env.PROJECT_ID }}
 
       - name: Configure Docker auth
-        run: gcloud auth configure-docker "${{ env.REGION }}-docker.pkg.dev" --quiet
+        run: |
+          REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
+          gcloud auth configure-docker "${REGION_TRIM}-docker.pkg.dev" --quiet
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
@@ -125,13 +132,16 @@ jobs:
           BACKEND_URL: ${{ needs.backend.outputs.backend-url }}
           FRONTEND_API_URL: ${{ secrets.FRONTEND_API_URL }}
         run: |
+          REGION_TRIM=$(echo "${{ env.REGION }}" | tr -d '[:space:]')
+          PROJECT_TRIM=$(echo "${{ env.PROJECT_ID }}" | tr -d '[:space:]')
+          REPO_TRIM=$(echo "${{ env.ARTIFACT_REPOSITORY }}" | tr -d '[:space:]')
           API_URL="${BACKEND_URL:-$FRONTEND_API_URL}"
           if [ -z "$API_URL" ]; then
             echo "Backend URL not found. Add FRONTEND_API_URL secret or ensure backend deployed." >&2
             exit 1
           fi
           API_URL="${API_URL%/}"
-          FRONTEND_IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPOSITORY }}/frontend:${{ github.sha }}"
+          FRONTEND_IMAGE="${REGION_TRIM}-docker.pkg.dev/${PROJECT_TRIM}/${REPO_TRIM}/frontend:${{ github.sha }}"
           echo "FRONTEND_IMAGE=$FRONTEND_IMAGE" >> $GITHUB_ENV
           docker build --build-arg VITE_API_URL="${API_URL}/api" -t "$FRONTEND_IMAGE" ./frontend
           docker push "$FRONTEND_IMAGE"
