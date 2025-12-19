@@ -11,7 +11,7 @@ ENV CRON_TIMEZONE=UTC
 
 # Install dependencies first (better layer caching)
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --omit=dev; fi
 
 # Copy application source
 COPY . .
