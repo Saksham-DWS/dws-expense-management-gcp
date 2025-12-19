@@ -9,7 +9,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: ${{ secrets.GCP_REGION }}
-  ARTIFACT_REPOSITORY: expense-app
+  ARTIFACT_REPOSITORY: expense-management-app
   BACKEND_SERVICE: expense-backend
   FRONTEND_SERVICE: expense-frontend
 
