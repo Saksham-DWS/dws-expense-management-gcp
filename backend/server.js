@@ -13,6 +13,7 @@ import expenseRoutes from './src/routes/expenseRoutes.js';
 import notificationRoutes from './src/routes/notificationRoutes.js';
 import serviceHandlerRoutes from './src/routes/serviceHandlerRoutes.js';
 import logRoutes from './src/routes/logRoutes.js';
+import cronRoutes from './src/routes/cronRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -36,6 +37,7 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/service-handler', serviceHandlerRoutes);
 app.use('/api/logs', logRoutes);
+app.use('/_cron', cronRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -70,9 +72,10 @@ app.use(errorHandler);
 initializeCronJobs();
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || '0.0.0.0';
+app.listen(PORT, HOST, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on ${HOST}:${PORT}`);
 });
 
 // Handle unhandled promise rejections
