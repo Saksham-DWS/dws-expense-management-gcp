@@ -26,5 +26,5 @@ USER node
 # Expose Cloud Run port
 EXPOSE 8080
 
-# Start the application
-CMD ["node", "server.js"]
+# Start the application via npm (uses package.json start script)
+CMD ["npm", "start"]
