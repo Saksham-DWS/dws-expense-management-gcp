@@ -96,6 +96,8 @@ jobs:
       - name: Capture backend URL
         id: backend-url
         run: |
+          unset CLOUDSDK_API_ENDPOINT_OVERRIDES_RUN
+          gcloud config unset api_endpoint_overrides/run || true
           URL=$(gcloud run services describe "${{ env.BACKEND_SERVICE }}" --region "${{ env.REGION }}" --format 'value(status.url)')
           echo "url=${URL}" >> $GITHUB_OUTPUT
 
