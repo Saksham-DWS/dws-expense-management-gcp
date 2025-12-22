@@ -30,63 +30,9 @@ const hasRenewalAction = async (entryId, renewalDate) => {
   return Boolean(existing);
 };
 
-// Advance overdue recurring entries to the next future cycle and clear reminder flags
-const advanceNextRenewalDate = (entry) => {
-  if (!entry?.nextRenewalDate) return false;
-
-  const now = new Date();
-  let nextDate = new Date(entry.nextRenewalDate);
-  const original = nextDate.getTime();
-
-  if (entry.recurring === 'Monthly') {
-    while (nextDate < now) {
-      nextDate.setMonth(nextDate.getMonth() + 1);
-    }
-  } else if (entry.recurring === 'Yearly') {
-    while (nextDate < now) {
-      nextDate.setFullYear(nextDate.getFullYear() + 1);
-    }
-  } else {
-    return false;
-  }
-
-  if (nextDate.getTime() !== original) {
-    entry.nextRenewalDate = nextDate;
-    entry.renewalNotificationSent = false;
-    entry.autoCancellationNotificationSent = false;
-    return true;
-  }
-
-  return false;
-};
-
-// Fix any missed renewal cycles before selecting upcoming reminders
-const runRenewalCatchUpOnce = async () => {
-  const overdueEntries = await ExpenseEntry.find({
-    nextRenewalDate: { $lt: new Date() },
-    status: 'Active',
-    entryStatus: 'Accepted',
-    recurring: { $in: ['Monthly', 'Yearly'] },
-  });
-
-  if (!overdueEntries.length) return;
-
-  for (const entry of overdueEntries) {
-    const advanced = advanceNextRenewalDate(entry);
-    if (advanced) {
-      await entry.save();
-    }
-  }
-
-  console.log(`Catch-up processed for ${overdueEntries.length} overdue entries`);
-};
-
 // Send renewal reminders 5 days before renewal date
 export const runRenewalRemindersOnce = async () => {
   console.log('Running renewal reminder job (single run)...');
-
-  // Catch up missed renewal cycles so reminders target the correct future date
-  await runRenewalCatchUpOnce();
   const reminderDays = parseInt(process.env.RENEWAL_NOTIFICATION_DAYS, 10) || 5;
   const targetDate = new Date();
   targetDate.setDate(targetDate.getDate() + reminderDays);
