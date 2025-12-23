@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Download, Upload, CheckCircle2, ListChecks } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import Card from '../components/common/Card';
@@ -17,6 +17,7 @@ import {
   APPROVED_BY,
   RECURRING_OPTIONS,
   CURRENCIES,
+  BUSINESS_UNITS,
 } from '../utils/constants';
 import { downloadFile } from '../utils/formatters';
 import toast from 'react-hot-toast';
@@ -27,6 +28,9 @@ const Expenses = () => {
   const canSeeDuplicateControls = user?.role === 'mis_manager';
   const canFilterBusinessUnit = ['mis_manager', 'super_admin'].includes(user?.role);
   const canEditCardAssignedTo = user?.role === 'mis_manager';
+  const canFilterServiceHandler = ['mis_manager', 'super_admin', 'business_unit_admin', 'spoc'].includes(user?.role);
+  const canFilterCardAssigned = ['mis_manager', 'super_admin', 'business_unit_admin', 'spoc'].includes(user?.role);
+  const canEditSharedAllocations = ['mis_manager', 'super_admin'].includes(user?.role);
   const createDefaultFilters = () => ({ ...ADVANCED_FILTER_DEFAULTS });
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,6 +49,18 @@ const Expenses = () => {
     'Merged = exact duplicate entries detected against existing records. Unique = entries that do not match any existing record.';
   const totalEntries = expenses.length;
   const activeServices = expenses.filter((e) => e.status === 'Active').length;
+  const serviceHandlerOptions = useMemo(
+    () =>
+      [...new Set(expenses.map((expense) => expense.serviceHandler).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b)),
+    [expenses]
+  );
+  const cardAssignedOptions = useMemo(
+    () =>
+      [...new Set(expenses.map((expense) => expense.cardAssignedTo).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b)),
+    [expenses]
+  );
 
   useEffect(() => {
     fetchExpenses();
@@ -129,9 +145,17 @@ const Expenses = () => {
   };
 
   const handleEdit = (expense) => {
+    const baseAllocations = expense.sharedAllocations ? [...expense.sharedAllocations] : [];
+    if (expense.isShared && expense.businessUnit) {
+      const hasPrimary = baseAllocations.some((alloc) => alloc.businessUnit === expense.businessUnit);
+      if (!hasPrimary) {
+        baseAllocations.push({ businessUnit: expense.businessUnit, amount: 0 });
+      }
+    }
     setSelectedExpense({
       ...expense,
       date: expense.date ? expense.date.substring(0, 10) : '',
+      sharedAllocations: baseAllocations,
     });
     setShowEditModal(true);
   };
@@ -146,6 +170,47 @@ const Expenses = () => {
         toast.error('Failed to delete expense');
       }
     }
+  };
+
+  const updateSharedAllocation = (businessUnit, amount) => {
+    setSelectedExpense((prev) => {
+      if (!prev) return prev;
+      const allocations = [...(prev.sharedAllocations || [])];
+      const idx = allocations.findIndex((alloc) => alloc.businessUnit === businessUnit);
+      if (idx >= 0) {
+        allocations[idx] = { ...allocations[idx], amount };
+      } else {
+        allocations.push({ businessUnit, amount });
+      }
+      const total = allocations.reduce((sum, alloc) => sum + (parseFloat(alloc.amount) || 0), 0);
+      return {
+        ...prev,
+        sharedAllocations: allocations,
+        amount: prev.isShared && total > 0 ? total : prev.amount,
+      };
+    });
+  };
+
+  const toggleSharedAllocation = (businessUnit, enabled) => {
+    setSelectedExpense((prev) => {
+      if (!prev) return prev;
+      const isPrimary = businessUnit === prev.businessUnit;
+      let allocations = [...(prev.sharedAllocations || [])];
+      if (!enabled && !isPrimary) {
+        allocations = allocations.filter((alloc) => alloc.businessUnit !== businessUnit);
+      } else if (enabled) {
+        const exists = allocations.some((alloc) => alloc.businessUnit === businessUnit);
+        if (!exists) {
+          allocations.push({ businessUnit, amount: 0 });
+        }
+      }
+      const total = allocations.reduce((sum, alloc) => sum + (parseFloat(alloc.amount) || 0), 0);
+      return {
+        ...prev,
+        sharedAllocations: allocations,
+        amount: prev.isShared && total > 0 ? total : prev.amount,
+      };
+    });
   };
 
   const handleUpdateExpense = async (e) => {
@@ -167,6 +232,25 @@ const Expenses = () => {
         serviceHandler: selectedExpense.serviceHandler,
         recurring: selectedExpense.recurring,
       };
+
+      if (selectedExpense.isShared) {
+        const sharedAllocations = (selectedExpense.sharedAllocations || [])
+          .map((item) => ({
+            businessUnit: item.businessUnit,
+            amount: parseFloat(item.amount) || 0,
+          }))
+          .filter((item) => item.amount > 0 && item.businessUnit);
+
+        if (sharedAllocations.length === 0) {
+          toast.error('Please enter at least one shared allocation amount.');
+          return;
+        }
+
+        const totalShared = sharedAllocations.reduce((sum, item) => sum + item.amount, 0);
+        payload.isShared = true;
+        payload.sharedAllocations = sharedAllocations;
+        payload.amount = totalShared;
+      }
 
       await updateExpense(selectedExpense._id, payload);
       toast.success('Expense updated successfully');
@@ -263,6 +347,10 @@ const Expenses = () => {
                   }}
                   showBusinessUnit={canFilterBusinessUnit}
                   showDuplicateStatusFilter={canSeeDuplicateControls}
+                  showServiceHandlerFilter={canFilterServiceHandler}
+                  showCardAssignedFilter={canFilterCardAssigned}
+                  serviceHandlerOptions={serviceHandlerOptions}
+                  cardAssignedOptions={cardAssignedOptions}
                 />
               </div>
             </div>
@@ -468,6 +556,50 @@ const Expenses = () => {
                   placeholder="e.g., Current"
                 />
               </div>
+              {canEditSharedAllocations && selectedExpense.isShared && (
+                <div className="border border-slate-200 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">Shared Distribution</h3>
+                      <p className="text-sm text-slate-500">
+                        Update the allocation across business units. Total amount recalculates on save.
+                      </p>
+                    </div>
+                    <span className="text-sm font-semibold text-emerald-600">Shared Entry</span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {BUSINESS_UNITS.map((bu) => {
+                      const allocation = selectedExpense.sharedAllocations?.find((alloc) => alloc.businessUnit === bu);
+                      const enabled = Boolean(allocation) || bu === selectedExpense.businessUnit;
+                      return (
+                        <div key={bu} className="border border-slate-200 rounded-lg p-3 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-slate-800">{bu}</span>
+                            <input
+                              type="checkbox"
+                              checked={enabled}
+                              onChange={(e) => toggleSharedAllocation(bu, e.target.checked)}
+                              disabled={bu === selectedExpense.businessUnit}
+                              title={bu === selectedExpense.businessUnit ? 'Primary business unit always included' : 'Include this BU in the split'}
+                            />
+                          </div>
+                          {enabled && (
+                            <Input
+                              label="Amount"
+                              type="number"
+                              step="0.01"
+                              name={`shared-${bu}`}
+                              value={allocation?.amount ?? ''}
+                              onChange={(e) => updateSharedAllocation(bu, e.target.value)}
+                              placeholder="e.g., 200"
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Select
                   label="Type of Service"

@@ -18,6 +18,8 @@ const toneForAction = (type) => {
       return { variant: 'danger', label: 'Disabled by MIS' };
     case 'continue':
       return { variant: 'info', label: 'Continue' };
+    case 'shared_edit':
+      return { variant: 'info', label: 'Shared Edit' };
     default:
       return { variant: 'default', label: type };
   }

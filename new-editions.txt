@@ -1,0 +1,193 @@
+New Editions (today)
+
+Backend updates
+1) New multi-value filters (Service Handler + Card Assigned To)
+- Added comma-separated, case-insensitive matching for service handlers and card assigned to.
+- Applies to expense listing and exports.
+- Honors role-based BU scoping for BU Admin/SPOC/Service Handler.
+Files:
+- backend/src/controllers/expenseController.js
+  - Added multi-value filter helpers and applied to serviceHandler/cardAssignedTo
+  - Search now includes cardAssignedTo
+- backend/src/controllers/bulkUploadController.js
+  - Same filter handling for export
+
+2) Shared entry edit support + logging
+- When shared allocations are updated, total amount is recalculated from allocations.
+- A log entry is created for shared edits (action: SharedEdit).
+Files:
+- backend/src/controllers/expenseController.js
+  - Shared allocation validation + recalculated amount
+  - New SharedEdit log creation
+- backend/src/models/RenewalLog.js
+  - Added SharedEdit action enum
+- backend/src/controllers/logController.js
+  - Shared edit log mapping
+  - BU admin logs include entries where their BU appears in shared allocations
+
+Frontend updates
+1) Hyper/Advanced Filter UI
+- Added Service Handler + Card Assigned To filter inputs (comma-separated), with datalist suggestions.
+- Wired into Dashboard and Global Expense Sheet with role-based visibility.
+Files:
+- frontend/src/components/common/AdvancedFilter.jsx
+- frontend/src/pages/Dashboard.jsx
+- frontend/src/pages/Expenses.jsx
+
+2) Shared allocation editor in Edit Expense modal
+- MIS/Super Admin can edit shared allocations.
+- Total amount recalculates from shared allocations before save.
+Files:
+- frontend/src/pages/Expenses.jsx
+
+3) Logs UI label
+- Shared edit log type labeled in logs.
+Files:
+- frontend/src/pages/Logs.jsx
+
+Code excerpts (new)
+
+backend/src/controllers/expenseController.js
+```
+const escapeRegex = (value = '') => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const parseMultiValues = (value) =>
+  value
+    ?.toString()
+    .split(',')
+    .map((val) => val.trim())
+    .filter(Boolean) || [];
+
+const buildRegexList = (values) => values.map((val) => new RegExp(escapeRegex(val), 'i'));
+
+const applyMultiValueFilter = (query, field, rawValue) => {
+  const values = parseMultiValues(rawValue);
+  if (values.length === 0) return;
+  const regexes = buildRegexList(values);
+  const clause = regexes.length === 1 ? regexes[0] : { $in: regexes };
+
+  if (query[field]) {
+    const existing = query[field];
+    delete query[field];
+    query.$and = query.$and
+      ? [...query.$and, { [field]: existing }, { [field]: clause }]
+      : [{ [field]: existing }, { [field]: clause }];
+  } else {
+    query[field] = clause;
+  }
+};
+```
+
+backend/src/controllers/expenseController.js (shared edit log)
+```
+if ((allocationsChanged || amountChanged) && expenseEntry.isShared) {
+  const reasonParts = [`Shared allocation updated by ${req.user.name}.`];
+  const updatedAmount = Number(expenseEntry.amount) || 0;
+  if (previousAmount !== updatedAmount) {
+    reasonParts.push(`Total ${previousAmount} -> ${updatedAmount}.`);
+  }
+  if (allocationsChanged) {
+    const fromLabel = formatAllocations(previousAllocations) || 'none';
+    const toLabel = formatAllocations(updatedAllocations) || 'none';
+    reasonParts.push(`Allocations ${fromLabel} -> ${toLabel}.`);
+  }
+  await RenewalLog.create({
+    expenseEntry: expenseEntry._id,
+    serviceHandler: expenseEntry.serviceHandler,
+    action: 'SharedEdit',
+    reason: reasonParts.join(' '),
+    renewalDate: new Date(),
+  });
+}
+```
+
+backend/src/controllers/bulkUploadController.js
+```
+if (serviceHandler) applyMultiValueFilter(query, 'serviceHandler', serviceHandler);
+if (cardAssignedTo) applyMultiValueFilter(query, 'cardAssignedTo', cardAssignedTo);
+```
+
+backend/src/models/RenewalLog.js
+```
+action: {
+  type: String,
+  enum: ['Continue', 'Cancel', 'DisableByMIS', 'SharedEdit'],
+  required: true,
+},
+```
+
+backend/src/controllers/logController.js
+```
+const isSharedEdit = log.action === 'SharedEdit';
+return {
+  id: log._id,
+  type: isSharedEdit ? 'shared_edit' : isMisDisable ? 'disabled_by_mis' : isCancel ? 'disable_request' : 'continue',
+  action: isSharedEdit ? 'Shared allocation update' : isMisDisable ? 'Disabled by MIS' : isCancel ? 'Disable Request' : 'Continue Service',
+  ...
+  isShared: entry?.isShared || false,
+  sharedAllocations: entry?.sharedAllocations || [],
+};
+```
+
+frontend/src/components/common/AdvancedFilter.jsx
+```
+export const ADVANCED_FILTER_DEFAULTS = {
+  businessUnit: '',
+  cardNumber: '',
+  cardAssignedTo: '',
+  status: '',
+  typeOfService: '',
+  serviceHandler: '',
+  ...
+};
+```
+
+frontend/src/components/common/AdvancedFilter.jsx (new filters)
+```
+{showCardAssignedFilter && (
+  <Input
+    label="Card Assigned To"
+    name="cardAssignedTo"
+    value={filters.cardAssignedTo}
+    onChange={handleChange}
+    placeholder="e.g., John Doe, Priya Shah"
+    hint="Comma-separate multiple names"
+    list={cardAssignedListId}
+  />
+)}
+
+{showServiceHandlerFilter && (
+  <Input
+    label="Service Handler"
+    name="serviceHandler"
+    value={filters.serviceHandler}
+    onChange={handleChange}
+    placeholder="e.g., Raghav, Tarun"
+    hint="Comma-separate multiple handlers"
+    list={serviceHandlerListId}
+  />
+)}
+```
+
+frontend/src/pages/Expenses.jsx (shared edit UI + payload)
+```
+if (selectedExpense.isShared) {
+  const sharedAllocations = (selectedExpense.sharedAllocations || [])
+    .map((item) => ({
+      businessUnit: item.businessUnit,
+      amount: parseFloat(item.amount) || 0,
+    }))
+    .filter((item) => item.amount > 0 && item.businessUnit);
+
+  const totalShared = sharedAllocations.reduce((sum, item) => sum + item.amount, 0);
+  payload.isShared = true;
+  payload.sharedAllocations = sharedAllocations;
+  payload.amount = totalShared;
+}
+```
+
+frontend/src/pages/Logs.jsx
+```
+case 'shared_edit':
+  return { variant: 'info', label: 'Shared Edit' };
+```

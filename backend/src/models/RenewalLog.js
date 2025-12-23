@@ -13,7 +13,7 @@ const renewalLogSchema = new mongoose.Schema(
     },
     action: {
       type: String,
-      enum: ['Continue', 'Cancel', 'DisableByMIS'],
+      enum: ['Continue', 'Cancel', 'DisableByMIS', 'SharedEdit'],
       required: true,
     },
     reason: {

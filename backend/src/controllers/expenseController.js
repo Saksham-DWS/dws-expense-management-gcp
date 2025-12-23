@@ -29,6 +29,49 @@ const validateSharedAllocations = (isShared, sharedAllocations = [], totalAmount
   return { isShared: true, sharedAllocations: cleaned };
 };
 
+const escapeRegex = (value = '') => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const parseMultiValues = (value) =>
+  value
+    ?.toString()
+    .split(',')
+    .map((val) => val.trim())
+    .filter(Boolean) || [];
+
+const buildRegexList = (values) => values.map((val) => new RegExp(escapeRegex(val), 'i'));
+
+const applyMultiValueFilter = (query, field, rawValue) => {
+  const values = parseMultiValues(rawValue);
+  if (values.length === 0) return;
+  const regexes = buildRegexList(values);
+  const clause = regexes.length === 1 ? regexes[0] : { $in: regexes };
+
+  if (query[field]) {
+    const existing = query[field];
+    delete query[field];
+    query.$and = query.$and ? [...query.$and, { [field]: existing }, { [field]: clause }] : [{ [field]: existing }, { [field]: clause }];
+  } else {
+    query[field] = clause;
+  }
+};
+
+const normalizeAllocationsForCompare = (allocations = []) =>
+  (allocations || [])
+    .filter((alloc) => alloc.businessUnit)
+    .map((alloc) => ({
+      businessUnit: alloc.businessUnit,
+      amount: Number(alloc.amount) || 0,
+    }))
+    .sort((a, b) => a.businessUnit.localeCompare(b.businessUnit));
+
+const allocationsEqual = (a = [], b = []) => {
+  if (a.length !== b.length) return false;
+  return a.every((item, idx) => item.businessUnit === b[idx].businessUnit && item.amount === b[idx].amount);
+};
+
+const formatAllocations = (allocations = []) =>
+  allocations.map((alloc) => `${alloc.businessUnit}: ${alloc.amount}`).join(', ');
+
 const parseFilterDate = (value, endOfDay = false) => {
   if (!value) return undefined;
   if (/^\d{2}-\d{2}-\d{4}$/.test(value)) {
@@ -216,6 +259,7 @@ export const getExpenseEntries = async (req, res) => {
     const {
       businessUnit,
       cardNumber,
+      cardAssignedTo,
       status,
       date,
       month,
@@ -238,12 +282,11 @@ export const getExpenseEntries = async (req, res) => {
   let query = {};
 
   // Role-based filtering
-  if (req.user.role === 'business_unit_admin' || req.user.role === 'spoc') {
+  if (['business_unit_admin', 'spoc', 'service_handler'].includes(req.user.role)) {
     query.businessUnit = req.user.businessUnit;
   }
 
   if (req.user.role === 'service_handler') {
-    query.businessUnit = req.user.businessUnit;
     const escapedName = req.user.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const tokens = req.user.name
       .split(' ')
@@ -256,12 +299,15 @@ export const getExpenseEntries = async (req, res) => {
   }
 
   // Apply filters
-  if (businessUnit) query.businessUnit = businessUnit;
+  if (!['business_unit_admin', 'spoc', 'service_handler'].includes(req.user.role) && businessUnit) {
+    query.businessUnit = businessUnit;
+  }
   if (cardNumber) query.cardNumber = cardNumber;
   if (status) query.status = status;
   if (month) query.month = month;
   if (typeOfService) query.typeOfService = typeOfService;
-  if (serviceHandler) query.serviceHandler = serviceHandler;
+  if (serviceHandler) applyMultiValueFilter(query, 'serviceHandler', serviceHandler);
+  if (cardAssignedTo) applyMultiValueFilter(query, 'cardAssignedTo', cardAssignedTo);
   if (costCenter) query.costCenter = costCenter;
   if (approvedBy) query.approvedBy = approvedBy;
   if (recurring) query.recurring = recurring;
@@ -310,6 +356,7 @@ export const getExpenseEntries = async (req, res) => {
       { narration: { $regex: search, $options: 'i' } },
       { cardNumber: { $regex: search, $options: 'i' } },
       { serviceHandler: { $regex: search, $options: 'i' } },
+      { cardAssignedTo: { $regex: search, $options: 'i' } },
     ];
     query.$or = query.$or ? [...query.$or, ...searchClause] : searchClause;
   }
@@ -378,6 +425,8 @@ export const updateExpenseEntry = async (req, res) => {
     }
 
     const previousStatus = expenseEntry.status;
+    const previousAllocations = normalizeAllocationsForCompare(expenseEntry.sharedAllocations);
+    const previousAmount = Number(expenseEntry.amount) || 0;
 
     // Shared allocation validation (if provided)
     if (req.body.isShared !== undefined || req.body.sharedAllocations !== undefined) {
@@ -390,6 +439,10 @@ export const updateExpenseEntry = async (req, res) => {
         );
         req.body.isShared = validated.isShared;
         req.body.sharedAllocations = validated.sharedAllocations;
+        const sharedTotal = validated.sharedAllocations.reduce((sum, item) => sum + item.amount, 0);
+        if (validated.isShared && sharedTotal > 0) {
+          req.body.amount = sharedTotal;
+        }
       } catch (err) {
         return res.status(400).json({
           success: false,
@@ -417,6 +470,10 @@ export const updateExpenseEntry = async (req, res) => {
       runValidators: true,
     });
 
+    const updatedAllocations = normalizeAllocationsForCompare(expenseEntry.sharedAllocations);
+    const allocationsChanged = !allocationsEqual(previousAllocations, updatedAllocations);
+    const amountChanged = previousAmount !== (Number(expenseEntry.amount) || 0);
+
     // Create log when MIS/Super Admin disables a service
     if (
       req.body.status === 'Deactive' &&
@@ -428,6 +485,26 @@ export const updateExpenseEntry = async (req, res) => {
         serviceHandler: expenseEntry.serviceHandler,
         action: 'DisableByMIS',
         reason: req.body.disableReason || 'Disabled by MIS',
+        renewalDate: new Date(),
+        });
+    }
+
+    if ((allocationsChanged || amountChanged) && expenseEntry.isShared) {
+      const reasonParts = [`Shared allocation updated by ${req.user.name}.`];
+      const updatedAmount = Number(expenseEntry.amount) || 0;
+      if (previousAmount !== updatedAmount) {
+        reasonParts.push(`Total ${previousAmount} -> ${updatedAmount}.`);
+      }
+      if (allocationsChanged) {
+        const fromLabel = formatAllocations(previousAllocations) || 'none';
+        const toLabel = formatAllocations(updatedAllocations) || 'none';
+        reasonParts.push(`Allocations ${fromLabel} -> ${toLabel}.`);
+      }
+      await RenewalLog.create({
+        expenseEntry: expenseEntry._id,
+        serviceHandler: expenseEntry.serviceHandler,
+        action: 'SharedEdit',
+        reason: reasonParts.join(' '),
         renewalDate: new Date(),
       });
     }

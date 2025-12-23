@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useMemo, useState, forwardRef } from 'react';
+import { useEffect, useImperativeHandle, useMemo, useState, forwardRef, useId } from 'react';
 import { Filter, X, Calendar, DollarSign } from 'lucide-react';
 import Button from './Button';
 import Select from './Select';
@@ -16,8 +16,10 @@ import {
 export const ADVANCED_FILTER_DEFAULTS = {
   businessUnit: '',
   cardNumber: '',
+  cardAssignedTo: '',
   status: '',
   typeOfService: '',
+  serviceHandler: '',
   costCenter: '',
   approvedBy: '',
   recurring: '',
@@ -37,6 +39,10 @@ const AdvancedFilter = forwardRef(({
   onClearFilters,
   showBusinessUnit = true,
   showDuplicateStatusFilter = false,
+  showServiceHandlerFilter = false,
+  showCardAssignedFilter = false,
+  serviceHandlerOptions = [],
+  cardAssignedOptions = [],
   appliedFilters = ADVANCED_FILTER_DEFAULTS,
   label = 'Hyper Filter',
   variant = 'outline',
@@ -44,6 +50,8 @@ const AdvancedFilter = forwardRef(({
 }, ref) => {
   const [showModal, setShowModal] = useState(false);
   const [filters, setFilters] = useState({ ...ADVANCED_FILTER_DEFAULTS, ...appliedFilters });
+  const serviceHandlerListId = useId();
+  const cardAssignedListId = useId();
 
   useEffect(() => {
     setFilters({ ...ADVANCED_FILTER_DEFAULTS, ...appliedFilters });
@@ -133,6 +141,27 @@ const AdvancedFilter = forwardRef(({
               placeholder="e.g., M003, C002"
             />
 
+            {showCardAssignedFilter && (
+              <div>
+                <Input
+                  label="Card Assigned To"
+                  name="cardAssignedTo"
+                  value={filters.cardAssignedTo}
+                  onChange={handleChange}
+                  placeholder="e.g., John Doe, Priya Shah"
+                  hint="Comma-separate multiple names"
+                  list={cardAssignedListId}
+                />
+                {cardAssignedOptions.length > 0 && (
+                  <datalist id={cardAssignedListId}>
+                    {cardAssignedOptions.map((name) => (
+                      <option key={name} value={name} />
+                    ))}
+                  </datalist>
+                )}
+              </div>
+            )}
+
             {/* Status */}
             <Select
               label="Status"
@@ -150,6 +179,27 @@ const AdvancedFilter = forwardRef(({
               onChange={handleChange}
               options={TYPES_OF_EXPENSE}
             />
+
+            {showServiceHandlerFilter && (
+              <div>
+                <Input
+                  label="Service Handler"
+                  name="serviceHandler"
+                  value={filters.serviceHandler}
+                  onChange={handleChange}
+                  placeholder="e.g., Raghav, Tarun"
+                  hint="Comma-separate multiple handlers"
+                  list={serviceHandlerListId}
+                />
+                {serviceHandlerOptions.length > 0 && (
+                  <datalist id={serviceHandlerListId}>
+                    {serviceHandlerOptions.map((name) => (
+                      <option key={name} value={name} />
+                    ))}
+                  </datalist>
+                )}
+              </div>
+            )}
 
             {/* Cost Center */}
             <Select

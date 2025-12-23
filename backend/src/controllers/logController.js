@@ -27,11 +27,12 @@ const mapRenewalLog = (log) => {
   const entry = log.expenseEntry;
   const isCancel = log.action === 'Cancel';
   const isMisDisable = log.action === 'DisableByMIS';
+  const isSharedEdit = log.action === 'SharedEdit';
   return {
     id: log._id,
-    type: isMisDisable ? 'disabled_by_mis' : isCancel ? 'disable_request' : 'continue',
-    action: isMisDisable ? 'Disabled by MIS' : isCancel ? 'Disable Request' : 'Continue Service',
-    status: isMisDisable ? 'Deactive' : 'Active',
+    type: isSharedEdit ? 'shared_edit' : isMisDisable ? 'disabled_by_mis' : isCancel ? 'disable_request' : 'continue',
+    action: isSharedEdit ? 'Shared allocation update' : isMisDisable ? 'Disabled by MIS' : isCancel ? 'Disable Request' : 'Continue Service',
+    status: isSharedEdit ? entry?.status : isMisDisable ? 'Deactive' : 'Active',
     service: entry?.particulars,
     businessUnit: entry?.businessUnit,
     serviceHandler: log.serviceHandler,
@@ -45,7 +46,15 @@ const mapRenewalLog = (log) => {
     recurring: entry?.recurring,
     reason: log.reason,
     createdAt: log.createdAt,
+    isShared: entry?.isShared || false,
+    sharedAllocations: entry?.sharedAllocations || [],
   };
+};
+
+const includesBusinessUnit = (entry, businessUnit) => {
+  if (!entry || !businessUnit) return false;
+  if (entry.businessUnit === businessUnit) return true;
+  return (entry.sharedAllocations || []).some((alloc) => alloc.businessUnit === businessUnit);
 };
 
 // @desc    Get combined logs (purchases + renewal/cancel actions)
@@ -54,7 +63,9 @@ const mapRenewalLog = (log) => {
 export const getLogs = async (req, res) => {
   try {
     const isBUAdmin = req.user.role === 'business_unit_admin';
-    const buFilter = isBUAdmin ? { businessUnit: req.user.businessUnit } : {};
+    const buFilter = isBUAdmin
+      ? { $or: [{ businessUnit: req.user.businessUnit }, { 'sharedAllocations.businessUnit': req.user.businessUnit }] }
+      : {};
 
     // Purchases (expense entries)
     const entries = await ExpenseEntry.find(buFilter)
@@ -74,7 +85,7 @@ export const getLogs = async (req, res) => {
     const filteredRenewal = renewalLogs.filter((log) => {
       if (!log.expenseEntry) return true; // keep orphan logs for visibility
       if (isBUAdmin) {
-        return log.expenseEntry.businessUnit === req.user.businessUnit;
+        return includesBusinessUnit(log.expenseEntry, req.user.businessUnit);
       }
       return true;
     });

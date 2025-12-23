@@ -15,6 +15,32 @@ const parseFilterDate = (value, endOfDay = false) => {
   return new Date(value);
 };
 
+const escapeRegex = (value = '') => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const parseMultiValues = (value) =>
+  value
+    ?.toString()
+    .split(',')
+    .map((val) => val.trim())
+    .filter(Boolean) || [];
+
+const buildRegexList = (values) => values.map((val) => new RegExp(escapeRegex(val), 'i'));
+
+const applyMultiValueFilter = (query, field, rawValue) => {
+  const values = parseMultiValues(rawValue);
+  if (values.length === 0) return;
+  const regexes = buildRegexList(values);
+  const clause = regexes.length === 1 ? regexes[0] : { $in: regexes };
+
+  if (query[field]) {
+    const existing = query[field];
+    delete query[field];
+    query.$and = query.$and ? [...query.$and, { [field]: existing }, { [field]: clause }] : [{ [field]: existing }, { [field]: clause }];
+  } else {
+    query[field] = clause;
+  }
+};
+
 // @desc    Bulk upload expense entries
 // @route   POST /api/expenses/bulk-upload
 // @access  Private (MIS, Super Admin)
@@ -685,6 +711,7 @@ export const exportExpenses = async (req, res) => {
     const {
       businessUnit,
       cardNumber,
+      cardAssignedTo,
       status,
       month,
       typeOfService,
@@ -708,12 +735,11 @@ export const exportExpenses = async (req, res) => {
     let query = {};
 
     // Role-based filtering
-    if (req.user.role === 'business_unit_admin' || req.user.role === 'spoc') {
+    if (['business_unit_admin', 'spoc', 'service_handler'].includes(req.user.role)) {
       query.businessUnit = req.user.businessUnit;
     }
 
     if (req.user.role === 'service_handler') {
-      query.businessUnit = req.user.businessUnit;
       const escapedName = req.user.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const tokens = req.user.name
         .split(' ')
@@ -726,12 +752,15 @@ export const exportExpenses = async (req, res) => {
     }
 
     // Apply filters
-    if (businessUnit) query.businessUnit = businessUnit;
+    if (!['business_unit_admin', 'spoc', 'service_handler'].includes(req.user.role) && businessUnit) {
+      query.businessUnit = businessUnit;
+    }
     if (cardNumber) query.cardNumber = cardNumber;
     if (status) query.status = status;
     if (month) query.month = month;
     if (typeOfService) query.typeOfService = typeOfService;
-    if (serviceHandler) query.serviceHandler = serviceHandler;
+    if (serviceHandler) applyMultiValueFilter(query, 'serviceHandler', serviceHandler);
+    if (cardAssignedTo) applyMultiValueFilter(query, 'cardAssignedTo', cardAssignedTo);
     if (costCenter) query.costCenter = costCenter;
     if (approvedBy) query.approvedBy = approvedBy;
     if (recurring) query.recurring = recurring;
@@ -776,6 +805,7 @@ export const exportExpenses = async (req, res) => {
         { narration: { $regex: search, $options: 'i' } },
         { cardNumber: { $regex: search, $options: 'i' } },
         { serviceHandler: { $regex: search, $options: 'i' } },
+        { cardAssignedTo: { $regex: search, $options: 'i' } },
       ];
       query.$or = query.$or ? [...query.$or, ...searchClause] : searchClause;
     }

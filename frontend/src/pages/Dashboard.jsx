@@ -101,6 +101,18 @@ const Dashboard = () => {
   const [sharedChartType, setSharedChartType] = useState('bar'); // 'bar' | 'pie'
   const [sharedMetric, setSharedMetric] = useState('expense'); // 'expense' | 'count'
   const itemsPerPage = 8;
+  const serviceHandlerOptions = useMemo(
+    () =>
+      [...new Set(expenses.map((expense) => expense.serviceHandler).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b)),
+    [expenses]
+  );
+  const cardAssignedOptions = useMemo(
+    () =>
+      [...new Set(expenses.map((expense) => expense.cardAssignedTo).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b)),
+    [expenses]
+  );
 
   const loadInitialDashboard = useCallback(async () => {
     try {
@@ -395,6 +407,8 @@ const Dashboard = () => {
   const endRow = visibleExpenses.length === 0 ? 0 : Math.min(currentPage * itemsPerPage, visibleExpenses.length);
   const activeFilterCount = Object.values(filters).filter((value) => value !== '' && value !== null && value !== undefined).length;
   const canFilterBusinessUnit = ['mis_manager', 'super_admin'].includes(user?.role);
+  const canFilterServiceHandler = ['mis_manager', 'super_admin', 'business_unit_admin', 'spoc'].includes(user?.role);
+  const canFilterCardAssigned = ['mis_manager', 'super_admin', 'business_unit_admin', 'spoc'].includes(user?.role);
   const canSeeDuplicateControls = user?.role === 'mis_manager';
 
   const totals = {
@@ -490,6 +504,10 @@ const Dashboard = () => {
         onClearFilters={handleClearFilters}
         showBusinessUnit={canFilterBusinessUnit}
         showDuplicateStatusFilter={canSeeDuplicateControls}
+        showServiceHandlerFilter={canFilterServiceHandler}
+        showCardAssignedFilter={canFilterCardAssigned}
+        serviceHandlerOptions={serviceHandlerOptions}
+        cardAssignedOptions={cardAssignedOptions}
       />
       <div className="space-y-6">
         <div className="rounded-3xl bg-white/95 border border-slate-100 shadow-[0_16px_40px_rgba(15,23,42,0.08)] px-6 py-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

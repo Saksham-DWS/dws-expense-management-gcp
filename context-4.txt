@@ -1,0 +1,48 @@
+Hey I have a new goal and editions in the application ,
+
+1. first edition we will do is i want to include new global filters , first filter is service handler filter 
+visbile to Super Admin, MIS Manager, Business unit Admin , Spoc , and Business unit Admin and Spoc can only apply this filter to their own business unit service handlers
+but for MIS and Super Admin in their Hyper Filter/Advance filter there will be a new filter called service handler filter
+this filer will show all service handlers and this filter will work with other filters in combination of other filters as well as single out working too
+for example : like if choose and click service handler filter and search the name of service handler in service handler filter or multiple service handler filter,
+and apply all service handlers entries will be shown to super admin, mis, super admin and spoc according to thier access, super admin and mis can see all business unit service handlers
+entries via filter and will show in global expense sheet accordingly and also can download that filtered sheet via export
+
+
+2. Another filter is card assigned too filter super admin, mis manager, business unit admin, spoc can apply filter on both dashboard and global expense sheet or expense sheet
+of card assigned to which you will make available in Hyper Filter/Advance Filter according to roles 
+
+
+3. Another task is Add a shared entry editor in every edit sheet feature of Super Admin and MIS as we already given the edit entry details features to MIS and Super admin
+Now this what i want is if any business unit spoc enters any entry and check shared box and that entry also saved as shared and shared among different business units
+
+what the MIS and Super Admin have the capability is they edit that entry from any business unit and if it is shared they can click edit open the edit component and in there 
+they can increase the or decrease the expense distributed among the business units and click save that service entry distribution of expense shows everywhere where it is showing 
+for example :
+
+if spoc of business unit DWS enters a entry and choose shared and in shared he chooses signature , collabx, wytlabs
+
+and the expense is 300 , and if distrbutes like DWS : 100$, signature : 50 $, collabx:50$, wytlabs : 100$,
+and that entry saved and show in global sheet or show anywhere in logs or email notification or internal one 
+
+and also MIS and Super Admin can see also 
+
+so they can search that entry or  newly added entry via shared 
+
+and in edit button they can increase or decrease the expense of shared entry and click save and that new updated expense relfects everywhere
+like previous is this  : expense is 300 , and distrbutes like DWS : 100$, signature : 50 $, collabx:50$, wytlabs : 100$,
+
+And super admin or mis will do this  : DWS : 100$, signature : 100 $, collabx:50$, wytlabs : 100$, , increases the signature expense from 50$ to 100$ so increment of 
+50 dollar will show everywhere , in global expense sheet that shared entry total 350$ even if the entry was maded via spoc is 300$ but super admin or mis updated it so globally it will show the new updated values
+and also in dashboard it will increment or decrement  the difference in the dashboard KPI's of total spending for example : 750000 after 300$ it shows 750300 and if increment or decrement from total  :  the kpi's act accordingly
+also in every aspect and now it will became 750350 if increment or decrement accordingly, also a log will also be captured of increment decrement or any edit maded by super admin or mis to all super admin , mis or repected business unit admins logs accordingly,
+
+
+
+Understand my intent and my new goal and take step wise approach and update the application with good code quality no code break, error free code  and maintain the soul and data of the application and
+take logical , practical, adaptive approach
+
+
+
+Hey can you make a new file at root and says new-editions and put all new editions and code there you done today after my instructions
+
